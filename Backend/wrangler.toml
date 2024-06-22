@@ -1,0 +1,23 @@
+name = "verbly"
+compatibility_date = "2023-12-01"
+
+[vars]
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNzVlYWU2YmMtZjdiMS00YmIyLWExMjMtYjQ2ZDdiOTBlMGM0IiwidGVuYW50X2lkIjoiOTMwMzQ3ZWE5OGU2ZDU2YzVmY2JjNjlkMWIwOWZiZTdlMTQxMDEzNGZhMmZkZTlhNDRiZTI1YWQwMDEyNGM4ZCIsImludGVybmFsX3NlY3JldCI6ImFhNGVjMDZlLThiNmEtNGQ0NS05YWI0LWY4ZDMwOTY3Yzg4OCJ9.yAtad46VPhYHP4JVdUor1x9HEF7hRBRXqC49lC18lvw"
+
+JWT_SECRET = "signatureBaby"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"

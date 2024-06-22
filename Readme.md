@@ -1,0 +1,1 @@
+you can do strech of integrating it with ai using langchain and produce quiz from blogs info 
