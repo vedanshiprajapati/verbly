@@ -17,18 +17,14 @@ export default function Home() {
             }
         })
         const data = await response.json();
-         
-        console.log(data?.details)
-         setData(data?.details)
+        setData(data?.details)
 
     }
     return (<>
-        <div className="box-border w-screen overflow-x-hidden max-w-screen">
-        <NavBar />
-        <div className="flex w-screen overflow-x-hidden flex-col gap-3 px-9 border border-black">
-        {data?.map((item, index) => {
-            return (<Blogcard BlogDetails={item} key={index}/>)
-        })}
-        </div></div>
+            <div className="flex flex-col items-center mt-16 gap-3">
+                {data?.map((item, index) => {
+                    return (<Blogcard BlogDetails={item} key={index}/>)
+                })}
+            </div>
     </>)
 }
