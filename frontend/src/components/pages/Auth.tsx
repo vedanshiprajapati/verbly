@@ -1,16 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form";
+} from "../ui/card";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { signin, signinInput } from "@vedanshi/verbly-common";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const {
@@ -19,10 +20,29 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isLoading },
   } = useForm<signin>({ resolver: zodResolver(signinInput) });
+  const Navigate = useNavigate();
+
   const handleSubmit2: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    const res = data as signin;
+    fetchdata(res);
     reset();
   };
+
+  const fetchdata = async (data: signin) => {
+    const response = await fetch(
+      "https://verbly.vedanshi3012p.workers.dev/api/v1/user/signin",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+    const authorization = await response.json();
+    console.log(authorization);
+    if (authorization.token) {
+      Navigate("/");
+    }
+  };
+  console.log(isLoading, "hii");
   return (
     <>
       <div className="w-full h-screen flex justify-center items-center">
