@@ -1,6 +1,6 @@
-import { ThemeProvider } from "./components/context/ThemeProvider"
-import AppRoutes from "./routes"
-import { AuthProvider } from "./components/context/AuthContext"
+import { ThemeProvider } from "./components/context/ThemeProvider";
+import AppRoutes from "./routes";
+import { AuthProvider } from "./components/context/AuthContext";
 function App() {
   return (
     <>
@@ -10,6 +10,6 @@ function App() {
         </AuthProvider>
       </ThemeProvider>
     </>
-  )
+  );
 }
-export default App
+export default App;

@@ -1,3 +1,4 @@
+import { BACKEND_URL } from "@/constants/const";
 import { signin, signup } from "@vedanshi/verbly-common";
 import { ReactNode, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +15,8 @@ type AuthContextType = {
 const initialState: AuthContextType = {
   isAuthenticated: false,
   setIsAuthenticated: () => {},
-  login: (data: signin) => {},
-  signUp: (data: signup) => {},
+  login: () => {},
+  signUp: () => {},
   logout: () => {},
 };
 export const AuthContext: React.Context<AuthContextType> =
@@ -33,16 +34,14 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(auth);
 
   const login = async (data: signin) => {
-    const response = await fetch(
-      "https://verbly.vedanshi3012p.workers.dev/api/v1/user/signin",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`${BACKEND_URL}user/signin`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
     const authorization = await response.json();
     if (authorization.token) {
       setIsAuthenticated(true);
+      console.log(authorization.token, "loginn function me");
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       localStorage.setItem("token", authorization.token);
       Navigate("/");
@@ -53,13 +52,10 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   };
 
   const signUp = async (data: signup) => {
-    const response = await fetch(
-      "https://verbly.vedanshi3012p.workers.dev/api/v1/user/signup",
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`${BACKEND_URL}user/signup`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
     const authorization = await response.json();
     if (authorization.token) {
       setIsAuthenticated(true);

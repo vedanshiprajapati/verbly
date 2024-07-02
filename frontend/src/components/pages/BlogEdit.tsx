@@ -1,10 +1,9 @@
-import { Plate } from "@udecode/plate-common";
-import { Editor } from "../plate-ui/editor";
+import BlogEditor from "../Reusables/BlogEditor";
 
 export default function BlogEdit() {
   return (
-    <Plate>
-      <Editor placeholder="Type..." />
-    </Plate>
+    <>
+      <BlogEditor />
+    </>
   );
 }
