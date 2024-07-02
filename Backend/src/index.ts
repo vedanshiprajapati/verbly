@@ -14,8 +14,8 @@ const app = new Hono<{
 }>()
 app.use('*', cors());
 app.use('*', async (c: Context, next) => {
-	const prisma = await new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
+  const prisma = await new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   c.set('prisma', prisma);
   await next();
@@ -27,8 +27,8 @@ app.route('/api/v1/blog', postRouter)
 app.get('/api/v1', (c) => {
   return c.text("hello! this is the api of verbly")
 })
-app.get('/',(c) => {
+app.get('/', (c) => {
   return c.text("hello! mainnnn")
-} )
+})
 
 export default app

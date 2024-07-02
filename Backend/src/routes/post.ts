@@ -98,7 +98,20 @@ postRouter.get('/:blogId', userAuthMiddleware, async (c: Context) => {
     const { blogId } = c.req.param();
     const response = await prisma.post.findFirst({
       where: {
-        authorId: c.get('id')
+        id: blogId,
+        // authorId: c.get('id')
+      },
+      select: {
+        title: true,
+        content: true,
+        id: true,
+        author: {
+          select: {
+            username: true,
+            name: true,
+          },
+        },
+        published: true,
       }
     })
     c.status(200);

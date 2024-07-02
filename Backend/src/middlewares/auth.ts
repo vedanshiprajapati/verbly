@@ -18,7 +18,6 @@ export const userAuthMiddleware = createMiddleware<Env>(async (c: Context, next)
       const token = header.split(' ')[1].trim();
       const response = await verify(token, c.env.JWT_SECRET);
       console.log(response)
-      console.log(response)
       const { id, username } = response
       c.set('username', username);
       c.set('id', id);

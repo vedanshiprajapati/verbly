@@ -1,27 +1,29 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { createBlog } from "@vedanshi/verbly-common";
+import { BACKEND_URL } from "@/constants/const";
 
 export default function Blog() {
   const { id } = useParams();
   const [data, setData] = useState<createBlog>({ title: "", content: "" });
+  let token = JSON.stringify(localStorage.getItem("token"));
+  if (token.startsWith('"') && token.endsWith('"')) {
+    token = token.slice(1, -1);
+  }
   useEffect(() => {
     fetchdata();
   }, []);
 
   const fetchdata = async () => {
-    const response = await fetch(
-      `https://verbly.vedanshi3012p.workers.dev/api/v1/blog/${id}`,
-      {
-        method: "GET",
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI4NDUxYmQwLWYxNmQtNGI1ZC05MWIxLWNmODJmMmFlMjBiYiIsInVzZXJuYW1lIjoidmVkYW5zaGkifQ.epmxun3_KY_YJTHvOVKcK6jn2faEpOAU4WvFtPWPBPg",
-        },
-      }
-    );
+    const response = await fetch(`${BACKEND_URL}blog/${id}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
+    console.log(data);
     setData(data?.details);
   };
   return (
@@ -47,6 +49,7 @@ export default function Blog() {
             <div className="flex items-center gap-4 mt-4">
               <Avatar className="w-10 h-10">
                 <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>Jd</AvatarFallback>
               </Avatar>
               <div className="text-sm ">
                 <p>john doe</p>

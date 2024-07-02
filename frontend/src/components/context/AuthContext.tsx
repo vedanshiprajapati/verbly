@@ -32,7 +32,6 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
     auth = false;
   }
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(auth);
-
   const login = async (data: signin) => {
     const response = await fetch(`${BACKEND_URL}user/signin`, {
       method: "POST",
@@ -41,7 +40,6 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
     const authorization = await response.json();
     if (authorization.token) {
       setIsAuthenticated(true);
-      console.log(authorization.token, "loginn function me");
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       localStorage.setItem("token", authorization.token);
       Navigate("/");
@@ -75,7 +73,13 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, login, signUp, logout }}
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        login,
+        signUp,
+        logout,
+      }}
       {...props}
     >
       {children}

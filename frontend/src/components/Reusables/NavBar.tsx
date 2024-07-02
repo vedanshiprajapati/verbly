@@ -5,9 +5,12 @@ import { Button } from "../ui/button";
 import { useTheme } from "../context/ThemeProvider";
 import { Link, Outlet } from "react-router-dom";
 import { AvatarDropdown } from "./AvatarDropdown";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function NavBar() {
   const { theme, setTheme } = useTheme();
+  const { isAuthenticated } = useContext(AuthContext);
   const handleThemeToggle = (checked: boolean) => {
     setTheme(checked ? "light" : "dark");
   };
@@ -27,7 +30,7 @@ export default function NavBar() {
               />
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mr-6">
             <div className="flex items-center gap-1">
               <Sun color="grey" size={20} />
               <Switch
@@ -35,16 +38,24 @@ export default function NavBar() {
                 onCheckedChange={handleThemeToggle}
               />
             </div>
-            <Link to={"/blog/edit"}>
-              <div>
-                <Button variant="link" color="grey">
-                  Write
-                </Button>
-              </div>
-            </Link>
-            <div>
-              <AvatarDropdown />
-            </div>
+            {isAuthenticated ? (
+              <>
+                <Link to={"/blog/edit"}>
+                  <div>
+                    <Button variant="link" color="grey">
+                      Write
+                    </Button>
+                  </div>
+                </Link>
+                <div>
+                  <AvatarDropdown />
+                </div>
+              </>
+            ) : (
+              <Button className=" ml-3">
+                <Link to={"/login"}>Login</Link>
+              </Button>
+            )}
           </div>
         </header>
         <Outlet />

@@ -73,6 +73,7 @@ import {
 } from "@udecode/plate-table";
 import {
   createBoldPlugin,
+  MARK_BOLD,
   createItalicPlugin,
   MARK_ITALIC,
   createUnderlinePlugin,
@@ -111,7 +112,6 @@ import { createNodeIdPlugin } from "@udecode/plate-node-id";
 import { createResetNodePlugin } from "@udecode/plate-reset-node";
 import { createDeletePlugin } from "@udecode/plate-select";
 import { createTabbablePlugin } from "@udecode/plate-tabbable";
-import { createTrailingBlockPlugin } from "@udecode/plate-trailing-block";
 import {
   createCommentsPlugin,
   CommentsProvider,
@@ -124,43 +124,43 @@ import { createJuicePlugin } from "@udecode/plate-juice";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { BlockquoteElement } from "../plate-ui/blockquote-element";
-import { CodeBlockElement } from "../plate-ui/code-block-element";
-import { CodeLineElement } from "../plate-ui/code-line-element";
-import { CodeSyntaxLeaf } from "../plate-ui/code-syntax-leaf";
-import { ExcalidrawElement } from "../plate-ui/excalidraw-element";
-import { HrElement } from "../plate-ui/hr-element";
-import { ImageElement } from "../plate-ui/image-element";
-import { LinkElement } from "../plate-ui/link-element";
-import { LinkFloatingToolbar } from "../plate-ui/link-floating-toolbar";
-import { ToggleElement } from "../plate-ui/toggle-element";
-import { ColumnGroupElement } from "../plate-ui/column-group-element";
-import { ColumnElement } from "../plate-ui/column-element";
-import { HeadingElement } from "../plate-ui/heading-element";
-import { ListElement } from "../plate-ui/list-element";
-import { MediaEmbedElement } from "../plate-ui/media-embed-element";
-import { MentionElement } from "../plate-ui/mention-element";
-import { MentionInputElement } from "../plate-ui/mention-input-element";
-import { ParagraphElement } from "../plate-ui/paragraph-element";
-import { TableElement } from "../plate-ui/table-element";
-import { TableRowElement } from "../plate-ui/table-row-element";
+import { BlockquoteElement } from "@/components/plate-ui/blockquote-element";
+import { CodeBlockElement } from "@/components/plate-ui/code-block-element";
+import { CodeLineElement } from "@/components/plate-ui/code-line-element";
+import { CodeSyntaxLeaf } from "@/components/plate-ui/code-syntax-leaf";
+import { ExcalidrawElement } from "@/components/plate-ui/excalidraw-element";
+import { HrElement } from "@/components/plate-ui/hr-element";
+import { ImageElement } from "@/components/plate-ui/image-element";
+import { LinkElement } from "@/components/plate-ui/link-element";
+import { LinkFloatingToolbar } from "@/components/plate-ui/link-floating-toolbar";
+import { ToggleElement } from "@/components/plate-ui/toggle-element";
+import { ColumnGroupElement } from "@/components/plate-ui/column-group-element";
+import { ColumnElement } from "@/components/plate-ui/column-element";
+import { HeadingElement } from "@/components/plate-ui/heading-element";
+import { ListElement } from "@/components/plate-ui/list-element";
+import { MediaEmbedElement } from "@/components/plate-ui/media-embed-element";
+import { MentionElement } from "@/components/plate-ui/mention-element";
+import { MentionInputElement } from "@/components/plate-ui/mention-input-element";
+import { ParagraphElement } from "@/components/plate-ui/paragraph-element";
+import { TableElement } from "@/components/plate-ui/table-element";
+import { TableRowElement } from "@/components/plate-ui/table-row-element";
 import {
   TableCellElement,
   TableCellHeaderElement,
-} from "../plate-ui/table-cell-element";
-import { TodoListElement } from "../plate-ui/todo-list-element";
-import { CodeLeaf } from "../plate-ui/code-leaf";
-import { CommentLeaf } from "../plate-ui/comment-leaf";
-import { CommentsPopover } from "../plate-ui/comments-popover";
-import { HighlightLeaf } from "../plate-ui/highlight-leaf";
-import { KbdLeaf } from "../plate-ui/kbd-leaf";
-import { Editor } from "../plate-ui/editor";
-import { FixedToolbar } from "../plate-ui/fixed-toolbar";
-import { FixedToolbarButtons } from "../plate-ui/fixed-toolbar-buttons";
-import { FloatingToolbar } from "../plate-ui/floating-toolbar";
-import { FloatingToolbarButtons } from "../plate-ui/floating-toolbar-buttons";
-import { withPlaceholders } from "../plate-ui/placeholder";
-import { withDraggables } from "../plate-ui/with-draggables";
+} from "@/components/plate-ui/table-cell-element";
+import { TodoListElement } from "@/components/plate-ui/todo-list-element";
+import { CodeLeaf } from "@/components/plate-ui/code-leaf";
+import { CommentLeaf } from "@/components/plate-ui/comment-leaf";
+import { CommentsPopover } from "@/components/plate-ui/comments-popover";
+import { HighlightLeaf } from "@/components/plate-ui/highlight-leaf";
+import { KbdLeaf } from "@/components/plate-ui/kbd-leaf";
+import { Editor } from "@/components/plate-ui/editor";
+import { FixedToolbar } from "@/components/plate-ui/fixed-toolbar";
+import { FixedToolbarButtons } from "@/components/plate-ui/fixed-toolbar-buttons";
+import { FloatingToolbar } from "@/components/plate-ui/floating-toolbar";
+import { FloatingToolbarButtons } from "@/components/plate-ui/floating-toolbar-buttons";
+import { withPlaceholders } from "@/components/plate-ui/placeholder";
+import { withDraggables } from "@/components/plate-ui/with-draggables";
 import { TooltipProvider } from "../plate-ui/tooltip";
 
 const plugins = createPlugins(
@@ -301,9 +301,6 @@ const plugins = createPlugins(
       },
     }),
     createTabbablePlugin(),
-    createTrailingBlockPlugin({
-      options: { type: ELEMENT_PARAGRAPH },
-    }),
     createCommentsPlugin(),
     createDeserializeDocxPlugin(),
     createDeserializeCsvPlugin(),
@@ -342,6 +339,7 @@ const plugins = createPlugins(
         [ELEMENT_TD]: TableCellElement,
         [ELEMENT_TH]: TableCellHeaderElement,
         [ELEMENT_TODO_LI]: TodoListElement,
+        [MARK_BOLD]: withProps(PlateLeaf, { as: "strong" }),
         [MARK_CODE]: CodeLeaf,
         [MARK_COMMENT]: CommentLeaf,
         [MARK_HIGHLIGHT]: HighlightLeaf,
@@ -364,27 +362,25 @@ const initialValue = [
   },
 ];
 
-export default function BlogEditor() {
+export default function PlateEditor() {
   return (
-    <TooltipProvider>
-      <DndProvider backend={HTML5Backend}>
-        <div className="px-24 py-12 flex flex-col items-center gap-10">
-          <CommentsProvider users={{}} myUserId="1">
-            <Plate plugins={plugins} initialValue={initialValue}>
-              <FixedToolbar>
-                <FixedToolbarButtons />
-              </FixedToolbar>
+    <DndProvider backend={HTML5Backend}>
+      <TooltipProvider>
+        <CommentsProvider users={{}} myUserId="1">
+          <Plate plugins={plugins} initialValue={initialValue}>
+            <FixedToolbar>
+              <FixedToolbarButtons />
+            </FixedToolbar>
 
-              <Editor />
+            <Editor />
 
-              <FloatingToolbar className="z-40">
-                <FloatingToolbarButtons />
-              </FloatingToolbar>
-              <CommentsPopover />
-            </Plate>
-          </CommentsProvider>
-        </div>
-      </DndProvider>
-    </TooltipProvider>
+            <FloatingToolbar>
+              <FloatingToolbarButtons />
+            </FloatingToolbar>
+            <CommentsPopover />
+          </Plate>
+        </CommentsProvider>
+      </TooltipProvider>
+    </DndProvider>
   );
 }

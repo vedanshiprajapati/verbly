@@ -17,7 +17,6 @@ export default function Home() {
   }, []);
   const fetchdata = async () => {
     setIsLoading(true);
-    console.log(token);
     const response = await fetch(`${BACKEND_URL}blog/bulk`, {
       method: "GET",
       headers: {
@@ -25,7 +24,6 @@ export default function Home() {
       },
     });
     const data = await response.json();
-    console.log(data);
     setData(data?.details);
     setIsLoading(false);
   };
@@ -33,13 +31,13 @@ export default function Home() {
     <>
       {isAuthenticated ? (
         <div className="flex flex-col items-center mt-16 gap-3">
-          {data?.map((item, index) => {
-            return isLoading ? (
-              <BlogCardSkeleton />
-            ) : (
-              <Blogcard BlogDetails={item} key={index} />
-            );
-          })}
+          {isLoading ? (
+            <BlogCardSkeleton />
+          ) : (
+            data?.map((item, index) => {
+              return <Blogcard BlogDetails={item} key={index} />;
+            })
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-end h-1/2">
