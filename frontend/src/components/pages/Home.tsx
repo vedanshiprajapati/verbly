@@ -3,19 +3,15 @@ import Blogcard, { BlogCardSkeleton } from "../Reusables/Blogcard";
 import { AuthContext } from "../context/AuthContext";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { BACKEND_URL } from "../../constants/const";
+import { BACKEND_URL, token } from "../../constants/const";
 export default function Home() {
   const { isAuthenticated } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  let token = JSON.stringify(localStorage.getItem("token"));
-  if (token.startsWith('"') && token.endsWith('"')) {
-    token = token.slice(1, -1);
-  }
   useEffect(() => {
-    fetchdata();
+    fetchAllBlogs();
   }, []);
-  const fetchdata = async () => {
+  const fetchAllBlogs = async () => {
     setIsLoading(true);
     const response = await fetch(`${BACKEND_URL}blog/bulk`, {
       method: "GET",

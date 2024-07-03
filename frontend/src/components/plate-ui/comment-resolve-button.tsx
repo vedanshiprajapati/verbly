@@ -8,7 +8,7 @@ import {
   useComment,
 } from "@udecode/plate-comments";
 
-import { Icons } from "@/components/plate-ui/icons";
+import { Icons } from "@/components/icons";
 
 import { buttonVariants } from "./button";
 

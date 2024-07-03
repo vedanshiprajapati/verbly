@@ -5,6 +5,8 @@ import {
   RenderAfterEditable,
   PlateElement,
   PlateLeaf,
+  useEditorState,
+  Value,
 } from "@udecode/plate-common";
 import {
   createParagraphPlugin,
@@ -123,7 +125,6 @@ import { createDeserializeMdPlugin } from "@udecode/plate-serializer-md";
 import { createJuicePlugin } from "@udecode/plate-juice";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
 import { BlockquoteElement } from "@/components/plate-ui/blockquote-element";
 import { CodeBlockElement } from "@/components/plate-ui/code-block-element";
 import { CodeLineElement } from "@/components/plate-ui/code-line-element";
@@ -162,6 +163,7 @@ import { FloatingToolbarButtons } from "@/components/plate-ui/floating-toolbar-b
 import { withPlaceholders } from "@/components/plate-ui/placeholder";
 import { withDraggables } from "@/components/plate-ui/with-draggables";
 import { TooltipProvider } from "../plate-ui/tooltip";
+import { initialValue2 } from "@/constants/const";
 
 const plugins = createPlugins(
   [
@@ -354,7 +356,7 @@ const plugins = createPlugins(
   }
 );
 
-const initialValue = [
+const initialValue1 = [
   {
     id: "1",
     type: "p",
@@ -362,15 +364,38 @@ const initialValue = [
   },
 ];
 
-export default function PlateEditor() {
+type props = {
+  content?: Value;
+  setContent?: React.Dispatch<React.SetStateAction<Value>>;
+  readonly: boolean;
+  initialValue?: Value;
+};
+const BlogEditor = ({
+  content = initialValue1,
+  setContent = () => {},
+  readonly,
+  initialValue = initialValue1,
+}: props) => {
+  const handlesubmit = (value: Value) => {
+    setContent(value);
+  };
   return (
     <DndProvider backend={HTML5Backend}>
       <TooltipProvider>
         <CommentsProvider users={{}} myUserId="1">
-          <Plate plugins={plugins} initialValue={initialValue}>
-            <FixedToolbar>
-              <FixedToolbarButtons />
-            </FixedToolbar>
+          <Plate
+            onChange={(value) => {
+              handlesubmit(value);
+            }}
+            plugins={plugins}
+            initialValue={initialValue}
+            readOnly={readonly}
+          >
+            {!readonly && (
+              <FixedToolbar>
+                <FixedToolbarButtons />
+              </FixedToolbar>
+            )}
 
             <Editor />
 
@@ -383,4 +408,6 @@ export default function PlateEditor() {
       </TooltipProvider>
     </DndProvider>
   );
-}
+};
+
+export default BlogEditor;

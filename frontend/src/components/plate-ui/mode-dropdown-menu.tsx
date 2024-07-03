@@ -9,7 +9,7 @@ import {
   usePlateStore,
 } from "@udecode/plate-common";
 
-import { Icons } from "@/components/plate-ui/icons";
+import { Icons } from "@/components/icons";
 
 import {
   DropdownMenu,

@@ -14,7 +14,7 @@ import {
 } from "@udecode/plate-layout";
 import { useReadOnly } from "slate-react";
 
-import { Icons } from "@/components/plate-ui/icons";
+import { Icons } from "@/components/icons";
 
 import { Button } from "./button";
 import { Popover, PopoverAnchor, PopoverContent } from "./popover";

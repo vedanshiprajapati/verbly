@@ -11,7 +11,6 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { signin, signinInput } from "@vedanshi/verbly-common";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -26,8 +25,8 @@ export default function Login() {
   const { login } = useContext(AuthContext);
 
   const handleSubmit2: SubmitHandler<FieldValues> = (data) => {
-    const res = data as signin;
-    login(res);
+    const userInputs = data as signin;
+    login(userInputs);
     reset();
   };
 

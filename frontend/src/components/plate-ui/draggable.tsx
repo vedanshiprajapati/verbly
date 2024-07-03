@@ -20,7 +20,7 @@ import {
 } from "@udecode/plate-dnd";
 import { blockSelectionActions } from "@udecode/plate-selection";
 
-import { Icons } from "@/components/plate-ui/icons";
+import { Icons } from "@/components/icons";
 
 import {
   Tooltip,
