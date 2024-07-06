@@ -5,6 +5,8 @@ import Login from "./components/pages/Signin";
 import NavBar from "./components/Reusables/NavBar";
 import ProtectedRoute from "./components/Reusables/ProtectedRoute";
 import BlogEdit from "./components/pages/BlogEdit";
+import Signup from "./components/pages/Signup";
+import BlogUpdate from "./components/pages/BlogUpdate";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<NavBar />}>
@@ -14,9 +16,11 @@ const AppRoutes = () => (
       <Route path="/" element={<NavBar />}>
         <Route path="/blog/edit" element={<BlogEdit />} />
         <Route path="/blog/:id" element={<Blog />} />
+        <Route path="/blog/:id/edit" element={<BlogUpdate />} />
       </Route>
     </Route>
     <Route path="/login" element={<Login />} />
+    <Route path="/signup" element={<Signup />} />
   </Routes>
 );
 

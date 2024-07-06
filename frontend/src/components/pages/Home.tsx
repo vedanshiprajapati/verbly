@@ -28,7 +28,12 @@ export default function Home() {
       {isAuthenticated ? (
         <div className="flex flex-col items-center mt-16 gap-3">
           {isLoading ? (
-            <BlogCardSkeleton />
+            <>
+              <BlogCardSkeleton />
+              <BlogCardSkeleton />
+              <BlogCardSkeleton />
+              <BlogCardSkeleton />
+            </>
           ) : (
             data?.map((item, index) => {
               return <Blogcard BlogDetails={item} key={index} />;

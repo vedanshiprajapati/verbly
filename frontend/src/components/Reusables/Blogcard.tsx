@@ -27,9 +27,9 @@ const Blogcard: React.FC<BlogcardProps> = ({ BlogDetails }) => {
             <h2 className="text-2xl font-bold tracking-tight">
               {BlogDetails?.title}
             </h2>
-            <p className="text-muted-foreground truncate overflow-hidden text-ellipsis whitespace-nowrap">
+            {/* <p className="text-muted-foreground truncate overflow-hidden text-ellipsis whitespace-nowrap">
               {BlogDetails?.content}
-            </p>
+            </p> */}
           </div>
           <div className="flex items-center justify-between text-sm text-muted-foreground  ">
             <div className="flex items-center gap-2">
@@ -54,7 +54,7 @@ const Blogcard: React.FC<BlogcardProps> = ({ BlogDetails }) => {
 
 export function BlogCardSkeleton() {
   return (
-    <Card className="w-[48rem] hover:bg-slate-100 dark:hover:bg-slate-800">
+    <Card className="w-[48rem] ">
       <CardContent className="grid gap-4 p-6 w-[48rem]">
         <div className="space-y-2 max-w-2xl">
           <Skeleton className="h-8 w-3/4" />

@@ -5,7 +5,6 @@ import {
   RenderAfterEditable,
   PlateElement,
   PlateLeaf,
-  useEditorState,
   Value,
 } from "@udecode/plate-common";
 import {
@@ -163,7 +162,6 @@ import { FloatingToolbarButtons } from "@/components/plate-ui/floating-toolbar-b
 import { withPlaceholders } from "@/components/plate-ui/placeholder";
 import { withDraggables } from "@/components/plate-ui/with-draggables";
 import { TooltipProvider } from "../plate-ui/tooltip";
-import { initialValue2 } from "@/constants/const";
 
 const plugins = createPlugins(
   [
@@ -371,13 +369,14 @@ type props = {
   initialValue?: Value;
 };
 const BlogEditor = ({
-  content = initialValue1,
+  content,
   setContent = () => {},
   readonly,
   initialValue = initialValue1,
 }: props) => {
   const handlesubmit = (value: Value) => {
     setContent(value);
+    console.log(content);
   };
   return (
     <DndProvider backend={HTML5Backend}>

@@ -11,6 +11,7 @@ type AuthContextType = {
   login: (data: signin) => void;
   signUp: (data: signup) => void;
   logout: () => void;
+  user: string;
 };
 const initialState: AuthContextType = {
   isAuthenticated: false,
@@ -18,6 +19,7 @@ const initialState: AuthContextType = {
   login: () => {},
   signUp: () => {},
   logout: () => {},
+  user: "",
 };
 export const AuthContext: React.Context<AuthContextType> =
   createContext<AuthContextType>(initialState);
@@ -25,12 +27,14 @@ export const AuthContext: React.Context<AuthContextType> =
 export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   const Navigate = useNavigate();
   const getValue = localStorage.getItem("isAuthenticated");
+  let getuser = localStorage.getItem("user");
   let auth: boolean;
-  if (getValue != null) {
+  if (getValue != null && getuser) {
     auth = JSON.parse(getValue) === true;
   } else {
     auth = false;
   }
+  const [user, setUser] = useState(getuser || "");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(auth);
   const login = async (data: signin) => {
     const response = await fetch(`${BACKEND_URL}user/signin`, {
@@ -40,8 +44,11 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
     const authorization = await response.json();
     if (authorization.token) {
       setIsAuthenticated(true);
+      console.log(data.username, "usernameee");
+      setUser(data.username);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       localStorage.setItem("token", authorization.token);
+      localStorage.setItem("user", JSON.stringify(data.username));
       Navigate("/");
     } else {
       console.log(authorization);
@@ -57,8 +64,10 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
     const authorization = await response.json();
     if (authorization.token) {
       setIsAuthenticated(true);
+      setUser(data.username);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       localStorage.setItem("token", authorization.token);
+      localStorage.setItem("user", data.username);
       Navigate("/");
     } else {
       console.log(authorization);
@@ -79,6 +88,7 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
         login,
         signUp,
         logout,
+        user,
       }}
       {...props}
     >
