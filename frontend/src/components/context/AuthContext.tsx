@@ -1,4 +1,5 @@
-import { BACKEND_URL } from "@/constants/const";
+import { postLogin, postSignup } from "@/api/user";
+import { useMutation } from "@tanstack/react-query";
 import { signin, signup } from "@vedanshi/verbly-common";
 import { ReactNode, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,8 @@ type AuthContextType = {
   signUp: (data: signup) => void;
   logout: () => void;
   user: string;
+  isLoggingPending: boolean;
+  isSignUpPending: boolean;
 };
 const initialState: AuthContextType = {
   isAuthenticated: false,
@@ -20,6 +23,8 @@ const initialState: AuthContextType = {
   signUp: () => {},
   logout: () => {},
   user: "",
+  isLoggingPending: false,
+  isSignUpPending: false,
 };
 export const AuthContext: React.Context<AuthContextType> =
   createContext<AuthContextType>(initialState);
@@ -27,56 +32,76 @@ export const AuthContext: React.Context<AuthContextType> =
 export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
   const Navigate = useNavigate();
   const getValue = localStorage.getItem("isAuthenticated");
+
   let getuser = localStorage.getItem("user");
   let auth: boolean;
+
   if (getValue != null && getuser) {
     auth = JSON.parse(getValue) === true;
   } else {
     auth = false;
   }
+
+  // username
   const [user, setUser] = useState(getuser || "");
+
+  // whether user is authenticated or not
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(auth);
-  const login = async (data: signin) => {
-    const response = await fetch(`${BACKEND_URL}user/signin`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const authorization = await response.json();
-    if (authorization.token) {
-      setIsAuthenticated(true);
-      console.log(data.username, "usernameee");
-      setUser(data.username);
-      localStorage.setItem("isAuthenticated", JSON.stringify(true));
-      localStorage.setItem("token", authorization.token);
-      localStorage.setItem("user", JSON.stringify(data.username));
-      Navigate("/");
-    } else {
-      console.log(authorization);
-      alert("check console");
-    }
+
+  //mutation function to handle post request of login using react query
+  const loginMutation = useMutation({
+    mutationFn: postLogin,
+    onSuccess: (data, variables) => {
+      if (data.token) {
+        setIsAuthenticated(true);
+        setUser(variables.username);
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(variables.username));
+        Navigate("/");
+      }
+    },
+    onError: (error) => {
+      console.error("Login error:", error);
+      alert("Login failed. Please check console for details.");
+    },
+  });
+
+  // mutation function to handle post request of signup using react query
+  const signUpMutation = useMutation({
+    mutationFn: postSignup,
+    onSuccess: (data, variables) => {
+      if (data.token) {
+        setIsAuthenticated(true);
+        setUser(variables.username);
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", variables.username);
+        Navigate("/");
+      }
+    },
+    onError: (error) => {
+      console.error("Signup error:", error);
+      alert("Signup failed. Please check console for details.");
+    },
+  });
+
+  // login function
+  const login = (data: signin) => {
+    loginMutation.mutate(data);
+  };
+  // signup function
+  const signUp = (data: signup) => {
+    signUpMutation.mutate(data);
   };
 
-  const signUp = async (data: signup) => {
-    const response = await fetch(`${BACKEND_URL}user/signup`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const authorization = await response.json();
-    if (authorization.token) {
-      setIsAuthenticated(true);
-      setUser(data.username);
-      localStorage.setItem("isAuthenticated", JSON.stringify(true));
-      localStorage.setItem("token", authorization.token);
-      localStorage.setItem("user", data.username);
-      Navigate("/");
-    } else {
-      console.log(authorization);
-      alert("check console");
-    }
-  };
+  // logout function
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.clear();
+    setUser("");
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     Navigate("/login");
   };
 
@@ -89,6 +114,8 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
         signUp,
         logout,
         user,
+        isLoggingPending: loginMutation.isPending,
+        isSignUpPending: signUpMutation.isPending,
       }}
       {...props}
     >

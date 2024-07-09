@@ -13,6 +13,8 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { signin, signinInput } from "@vedanshi/verbly-common";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { MoveLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const {
@@ -21,8 +23,8 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isLoading },
   } = useForm<signin>({ resolver: zodResolver(signinInput) });
-
-  const { login } = useContext(AuthContext);
+  const Navigate = useNavigate();
+  const { login, isLoggingPending } = useContext(AuthContext);
 
   const handleSubmit2: SubmitHandler<FieldValues> = (data) => {
     const userInputs = data as signin;
@@ -73,13 +75,24 @@ export default function Login() {
                   )}
                 </div>
               </div>
-              <Button
-                className="w-full mt-5"
-                type="submit"
-                disabled={isLoading}
-              >
-                Login
-              </Button>
+              <div className="flex mt-5 justify-between">
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    Navigate(`/`);
+                  }}
+                >
+                  <MoveLeft className="w-4 h-4 mr-1" />
+                  Home
+                </Button>
+                <Button
+                  className=""
+                  type="submit"
+                  disabled={isLoggingPending || isLoading}
+                >
+                  Login
+                </Button>
+              </div>
             </form>
           </CardContent>
         </Card>

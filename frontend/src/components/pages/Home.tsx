@@ -1,58 +1,68 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Blogcard, { BlogCardSkeleton } from "../Reusables/Blogcard";
 import { AuthContext } from "../context/AuthContext";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { BACKEND_URL, token } from "../../constants/const";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAllBlogs } from "@/api/blog";
+
+export interface BlogDetails {
+  title: string;
+  content: string;
+  id: string;
+  author: {
+    username: string;
+    name?: string;
+  };
+  published: true;
+}
+
 export default function Home() {
   const { isAuthenticated } = useContext(AuthContext);
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    fetchAllBlogs();
-  }, []);
-  const fetchAllBlogs = async () => {
-    setIsLoading(true);
-    const response = await fetch(`${BACKEND_URL}blog/bulk`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    setData(data?.details);
-    setIsLoading(false);
-  };
+
+  if (!isAuthenticated) {
+    return <HomepageUnauthenticated />;
+  }
+  const AllBlogsQuery = useQuery({
+    queryKey: ["allBlogs"],
+    queryFn: fetchAllBlogs,
+  });
+
+  const data: BlogDetails[] = AllBlogsQuery.isSuccess && AllBlogsQuery.data;
   return (
     <>
-      {isAuthenticated ? (
-        <div className="flex flex-col items-center mt-16 gap-3">
-          {isLoading ? (
-            <>
-              <BlogCardSkeleton />
-              <BlogCardSkeleton />
-              <BlogCardSkeleton />
-              <BlogCardSkeleton />
-            </>
-          ) : (
-            data?.map((item, index) => {
-              return <Blogcard BlogDetails={item} key={index} />;
-            })
-          )}
+      <div className="flex flex-col items-center mt-16 gap-3">
+        {AllBlogsQuery.isLoading ? (
+          <>
+            <BlogCardSkeleton />
+            <BlogCardSkeleton />
+            <BlogCardSkeleton />
+            <BlogCardSkeleton />
+          </>
+        ) : (
+          data?.map((item, index) => {
+            return <Blogcard BlogDetails={item} key={index} />;
+          })
+        )}
+      </div>
+    </>
+  );
+}
+
+function HomepageUnauthenticated() {
+  return (
+    <>
+      <div className="flex flex-col items-center justify-end h-1/2">
+        <h1 className="text-4xl font-bold mb-6">Welcome to Verbly</h1>
+        <div className="flex space-x-4">
+          <Button>
+            <Link to={`/login`}> Sign In</Link>
+          </Button>
+          <Button variant={"link"}>
+            <Link to={"/signup"}> Sign Up</Link>
+          </Button>
         </div>
-      ) : (
-        <div className="flex flex-col items-center justify-end h-1/2">
-          <h1 className="text-4xl font-bold mb-6">Welcome to Verbly</h1>
-          <div className="flex space-x-4">
-            <Button>
-              <Link to={`/login`}> Sign In</Link>
-            </Button>
-            <Button variant={"link"}>
-              <Link to={"/signup"}> Sign Up</Link>
-            </Button>
-          </div>
-        </div>
-      )}
+      </div>
     </>
   );
 }

@@ -60,7 +60,23 @@ postRouter.put('/:blogId', userAuthMiddleware, async (c: Context) => {
   }
 
 })
-
+postRouter.delete("/:blogId", userAuthMiddleware, async (c: Context) => {
+  try {
+    const prisma = c.get('prisma');
+    const { blogId } = c.req.param();
+    const response = await prisma.post.delete({
+      where: {
+        id: blogId,
+        authorId: c.get("id")
+      }
+    })
+    c.status(200);
+    return c.json({ message: "blog deleted successfully", details: response })
+  } catch (err: any) {
+    c.status(500);
+    return c.json({ message: "something went wrong", details: err.message });
+  }
+})
 postRouter.get('/bulk', userAuthMiddleware, async (c: Context) => {
 
   try {

@@ -1,56 +1,38 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BlogEditor from "../Reusables/BlogEditor";
 import { Button } from "../ui/button";
 import { Value } from "@udecode/plate-common";
-import { BACKEND_URL, token } from "@/constants/const";
 import { createBlog } from "@vedanshi/verbly-common";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { PostIndividualBlog } from "@/api/blog";
 
 export default function BlogEdit() {
-  const [blog, setBlog] = useState<createBlog>({
-    title: "",
-    content: "",
-    author: {
-      username: "",
+  const navigate = useNavigate();
+  const [content, setContent] = useState<Value>([]);
+  const [title, setTitle] = useState("");
+  const queryClient = useQueryClient();
+
+  const postBlogMutation = useMutation({
+    mutationFn: PostIndividualBlog,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["blog", data?.details?.id], data);
+      navigate(`/blog/${data?.details?.id}`);
     },
   });
-  const Navigate = useNavigate();
-  const [disabled, setDisabled] = useState(false);
-  const [content, setContent] = useState<Value>([]);
-  const [shouldPublish, setShouldPublish] = useState(false);
-  useEffect(() => {}, [disabled]);
-  useEffect(() => {
-    if (shouldPublish) {
-      setBlog((prevBlog) => ({
-        ...prevBlog,
-        content: JSON.stringify(content),
-      }));
-      setShouldPublish(false);
-    }
-  }, [content, shouldPublish]);
-
-  useEffect(() => {
-    if (shouldPublish === false && blog.content) {
-      publishBlog(blog);
-    }
-  }, [blog, shouldPublish]);
 
   const handleSubmit = () => {
-    setDisabled(true);
-    setShouldPublish(true);
-    setDisabled(false);
-  };
-  const publishBlog = async (blogInfo: createBlog) => {
-    const response = await fetch(`${BACKEND_URL}blog/edit`, {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${token}`,
+    console.log(content);
+    const BlogInfo: createBlog = {
+      title,
+      content: JSON.stringify(content),
+      author: {
+        username: localStorage.getItem("user") || "",
       },
-      body: JSON.stringify(blogInfo),
-    });
-    const data = await response.json();
-    Navigate(`/blog/${data?.details?.id}`);
+    };
+
+    postBlogMutation.mutate(BlogInfo);
   };
 
   return (
@@ -58,7 +40,7 @@ export default function BlogEdit() {
       <div className="border-b border-black mx-24 mt-12">
         <Input
           onChange={(value) => {
-            setBlog({ ...blog, title: value.target.value });
+            setTitle(value.target.value);
           }}
           className="border-none h-12 text-2xl font-bold"
           placeholder="Title"
@@ -70,8 +52,13 @@ export default function BlogEdit() {
           setContent={setContent}
           readonly={false}
         />
-        <Button onClick={handleSubmit} disabled={disabled}>
-          Publish
+        <Button
+          onClick={handleSubmit}
+          disabled={
+            postBlogMutation.isPending || !title || content.length === 0
+          }
+        >
+          {postBlogMutation.isPending ? "Publishing..." : "publish"}
         </Button>
       </div>
     </>

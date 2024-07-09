@@ -6,70 +6,64 @@ import { createBlog } from "@vedanshi/verbly-common";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Value } from "@udecode/plate-common";
-import { fetchIndividualBlogs } from "@/api/blog";
+import { UpdateIndividualBlog, fetchIndividualBlogs } from "@/api/blog";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import NotFound from "./NotFound";
 
 export default function BlogUpdate() {
   const { id } = useParams();
-  const [blog, setBlog] = useState<createBlog>({
-    title: "",
-    content: "",
-    author: {
-      username: "",
+  if (!id) {
+    return <NotFound />;
+  }
+  const Navigate = useNavigate();
+  const [content, setContent] = useState<Value>([]);
+  const [title, setTitle] = useState("");
+
+  const individualBlogQuery = useQuery({
+    queryKey: ["blog", id],
+    queryFn: () => fetchIndividualBlogs(id),
+    enabled: !!id,
+  });
+
+  if (individualBlogQuery.isLoading) {
+    return <div>Loading...</div>;
+  }
+  useEffect(() => {
+    if (individualBlogQuery.isSuccess) {
+      setTitle(individualBlogQuery.data.details.title);
+      setContent(JSON.parse(individualBlogQuery.data.details.content));
+    }
+  }, [individualBlogQuery.isSuccess, individualBlogQuery.data]);
+
+  const queryClient = useQueryClient();
+  const updateBlogMutation = useMutation({
+    mutationFn: UpdateIndividualBlog,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["blog"] });
+      queryClient.setQueryData(["blog", data?.details?.id], data);
+      Navigate(`/blog/${data?.details?.id}`);
     },
   });
-  const Navigate = useNavigate();
-  const [disabled, setDisabled] = useState(false);
-  const [content, setContent] = useState<Value>([]);
-  const [shouldPublish, setShouldPublish] = useState(false);
-  const fetchIndividualBlog = async () => {
-    const data = await fetchIndividualBlogs(id);
-    console.log(data);
-    setBlog(data?.details);
-    setContent(JSON.parse(data?.details?.content));
-  };
-  useEffect(() => {
-    fetchIndividualBlog();
-  }, []);
-  useEffect(() => {}, [disabled]);
-  useEffect(() => {
-    if (shouldPublish) {
-      setBlog((prevBlog) => ({
-        ...prevBlog,
-        content: JSON.stringify(content),
-      }));
-    }
-  }, [content, shouldPublish]);
-
-  useEffect(() => {
-    if (shouldPublish === true && blog.content) {
-      publishBlog(blog);
-    }
-  }, [blog, shouldPublish]);
 
   const handleSubmit = () => {
-    setDisabled(true);
-    setShouldPublish(true);
-    setDisabled(false);
-  };
-  const publishBlog = async (blogInfo: createBlog) => {
-    const response = await fetch(`${BACKEND_URL}blog/${id}`, {
-      method: "PUT",
-      headers: {
-        authorization: `Bearer ${token}`,
+    const blogInfo: createBlog = {
+      title,
+      content: JSON.stringify(content),
+      author: {
+        username: localStorage.getItem("user") || "",
       },
-      body: JSON.stringify(blogInfo),
-    });
-    const data = await response.json();
-    Navigate(`/blog/${data?.details?.id}`);
+    };
+    updateBlogMutation.mutate({ blogInfo, id });
   };
+
   return (
     <>
       <div className="border-b border-black mx-24 mt-12">
         <Input
           onChange={(value) => {
-            setBlog({ ...blog, title: value.target.value });
+            setTitle(value.target.value);
           }}
-          defaultValue={blog.title}
+          defaultValue={title}
           className="border-none h-12 text-2xl font-bold"
           placeholder="Title"
         />
@@ -92,8 +86,15 @@ export default function BlogUpdate() {
           >
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={disabled}>
-            Publish
+          <Button
+            onClick={handleSubmit}
+            disabled={
+              updateBlogMutation.isPending ||
+              title.length === 0 ||
+              content.length === 0
+            }
+          >
+            {updateBlogMutation.isPending ? "publishing..." : "publish"}
           </Button>
         </div>
       </div>

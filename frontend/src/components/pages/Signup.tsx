@@ -13,6 +13,8 @@ import { signup, signupInput } from "@vedanshi/verbly-common";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { MoveLeft } from "lucide-react";
 
 export default function Signup() {
   const {
@@ -21,8 +23,8 @@ export default function Signup() {
     handleSubmit,
     formState: { errors, isLoading },
   } = useForm<signup>({ resolver: zodResolver(signupInput) });
-
-  const { signUp } = useContext(AuthContext);
+  const Navigate = useNavigate();
+  const { signUp, isSignUpPending } = useContext(AuthContext);
 
   const handleSubmit2: SubmitHandler<FieldValues> = (data) => {
     const userInputs = data as signup;
@@ -38,7 +40,8 @@ export default function Signup() {
           <CardHeader>
             <CardTitle>Sign up!</CardTitle>
             <CardDescription>
-              Welcome! please enter your details
+              Welcome on verbly🚀! please enter your details to make your
+              account.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -48,7 +51,7 @@ export default function Signup() {
                   <Label htmlFor="name">name</Label>
                   <Input
                     id="name"
-                    placeholder="Enter your name"
+                    placeholder="Enter your name (optional)"
                     className="h-10"
                     {...register("name")}
                   />
@@ -97,13 +100,20 @@ export default function Signup() {
                   )}
                 </div>
               </div>
-              <Button
-                className="w-full mt-5"
-                type="submit"
-                disabled={isLoading}
-              >
-                Login
-              </Button>
+              <div className="flex justify-between mt-5">
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    Navigate(`/`);
+                  }}
+                >
+                  <MoveLeft className="w-4 h-4 mr-1" />
+                  Home
+                </Button>
+                <Button type="submit" disabled={isLoading || isSignUpPending}>
+                  Sign up
+                </Button>
+              </div>
             </form>
           </CardContent>
         </Card>

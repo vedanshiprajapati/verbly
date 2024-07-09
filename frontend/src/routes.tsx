@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/Reusables/ProtectedRoute";
 import BlogEdit from "./components/pages/BlogEdit";
 import Signup from "./components/pages/Signup";
 import BlogUpdate from "./components/pages/BlogUpdate";
+import NotFound from "./components/pages/NotFound";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<NavBar />}>
@@ -21,6 +22,7 @@ const AppRoutes = () => (
     </Route>
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
 

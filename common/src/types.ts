@@ -1,21 +1,21 @@
 import { z } from "zod"
 
 export const signupInput = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-    username: z.string().min(3).max(30),
+    email: z.string().email('Invalid email format'),
+    password: z.string().min(6, 'Password must be at least $ characters'),
+    username: z.string().min(3, 'Username must be at least 3 characters').max(30, 'Username can be only upto 30 characters').transform(username => username.trim().toLowerCase()),
     name: z.string().optional()
 })
 
 export const signinInput = z.object({
-    password: z.string().min(6),
-    username: z.string().min(3).max(30)
+    password: z.string().min(6, 'Password must be at least $ characters'),
+    username: z.string().min(3, 'Username must be at least 3 characters').max(30, 'Username can be only upto 30 characters').transform(username => username.trim().toLowerCase())
 })
 
 export const createBlogInput = z.object({
     title: z.string().min(1, 'Title is required'),
     author: z.object({
-        username: z.string().min(3).max(30),
+        username: z.string().min(3, 'Username must be at least 3 characters').max(30, 'Username can be only upto 30 characters').transform(username => username.trim().toLowerCase()),
         name: z.string().optional()
     }),
     contentFormat: z.string().optional(),

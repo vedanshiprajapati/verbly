@@ -3,17 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
-
-interface BlogDetails {
-  title: string;
-  content: string;
-  id: string;
-  author: {
-    username: string;
-    name: string | null;
-  };
-}
-
+import { BlogDetails } from "../pages/Home";
 interface BlogcardProps {
   BlogDetails: BlogDetails;
 }

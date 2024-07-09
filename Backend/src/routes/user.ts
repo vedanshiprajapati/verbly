@@ -3,6 +3,7 @@ import { Context, Hono } from "hono"
 import { hashPassword, verifyPassword } from "../utils/passwordEncryption"
 import { sign } from "hono/jwt"
 import { signupInput } from "@vedanshi/verbly-common"
+import { userAuthMiddleware } from "../middlewares/auth"
 
 
 export const userRouter = new Hono<{
@@ -30,6 +31,7 @@ userRouter.post('/signup', async (c: Context) => {
         email: body.email,
         password: hashedPassword,
         username: body.username,
+        name: body?.name
       }
     })
 
@@ -41,12 +43,33 @@ userRouter.post('/signup', async (c: Context) => {
     return c.json({ message: "mission of signing Up is successfull, Roger", token: token })
 
   } catch (err: any) {
+    console.log(typeof err);
     c.status(404)
     return c.json({ message: "Oops!, caught an error", error: err.message })
   }
 })
 
+userRouter.get("/profile", userAuthMiddleware, async (c: Context) => {
+  try {
+    const prisma = c.get("prisma");
+    const response = await prisma.user.findFirst({
+      where: {
+        id: c.get("id"),
+      },
+      select: {
+        email: true,
+        username: true,
+        name: true,
 
+      }
+    })
+    c.status(200);
+    return c.json({ message: "user details sent successfully", details: response, success: "OK" })
+  } catch (error: any) {
+    c.status(500);
+    return c.json({ message: "something is wrong", error: error.message });
+  }
+})
 userRouter.post('/signin', async (c: Context) => {
   try {
     const prisma = c.get('prisma');
