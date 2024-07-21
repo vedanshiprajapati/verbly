@@ -1,4 +1,4 @@
-import { BACKEND_URL, token } from "@/constants/const";
+import { BACKEND_URL} from "@/constants/const";
 import { MutationFunction } from "@tanstack/react-query";
 import { createBlog } from "@vedanshi/verbly-common";
 
@@ -13,7 +13,12 @@ export const fetchIndividualBlogs = async (id: string | undefined) => {
     return data;
 };
 
-export const PostIndividualBlog = async (blogInfo: createBlog): Promise<any> => {
+export const PostIndividualBlog = async <T>(blogInfo: createBlog): Promise<T> => {
+    const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Token not found");
+        return;
+      }
     const response = await fetch(`${BACKEND_URL}blog/edit`, {
         method: "POST",
         headers: {
