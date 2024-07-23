@@ -49,18 +49,20 @@ userRouter.post('/signup', async (c: Context) => {
   }
 })
 
-userRouter.get("/profile", userAuthMiddleware, async (c: Context) => {
+userRouter.get("/:username", userAuthMiddleware, async (c: Context) => {
   try {
+    const { username } = c.req.param()
     const prisma = c.get("prisma");
     const response = await prisma.user.findFirst({
       where: {
-        id: c.get("id"),
+        username: username,
       },
       select: {
         email: true,
         username: true,
         name: true,
-
+        id: true,
+        posts: true
       }
     })
     c.status(200);

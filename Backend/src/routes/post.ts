@@ -17,7 +17,7 @@ postRouter.post('/edit', userAuthMiddleware, async (c: Context) => {
     const body = await c.req.json();
     const { title, content } = body;
     const userId = c.get('id');
-    console.log(userId);
+    console.log(userId, "userr id");
 
     const response = await prisma.post.create({
       data: {
@@ -36,7 +36,27 @@ postRouter.post('/edit', userAuthMiddleware, async (c: Context) => {
   }
 
 })
+postRouter.get("/:blogid/iseditable", userAuthMiddleware, async (c: Context) => {
+  try {
+    const prisma = c.get("prisma");
+    const { blogid } = c.req.param();
 
+    const response = await prisma.post.findFirst({
+      where: {
+        id: blogid,
+        authorId: c.get('id')
+      }
+    })
+    c.status(200);
+    let isEditable = false;
+    if (response.title) {
+      isEditable = true;
+    }
+    return c.json({ message: "blog is editable", isEditable: isEditable, details: response });
+  } catch (e: any) {
+    return c.json({ message: "caught an error", isEditable: false, error: e.message })
+  }
+})
 postRouter.put('/:blogId', userAuthMiddleware, async (c: Context) => {
   try {
     const prisma = c.get('prisma')
@@ -82,8 +102,12 @@ postRouter.get('/bulk', userAuthMiddleware, async (c: Context) => {
   try {
 
     const prisma = c.get('prisma')
-
+    const cursor = c.req.query("cursor");
+    const skip = cursor ? parseInt(cursor) : 0
+    const take = 6;
     const response = await prisma.post.findMany({
+      skip: skip,
+      take: take,
       where: {
       },
       select: {
@@ -102,7 +126,8 @@ postRouter.get('/bulk', userAuthMiddleware, async (c: Context) => {
     })
 
     c.status(200);
-    return c.json({ message: "blog got successfully", details: response })
+    const nextCursor = skip + take;
+    return c.json({ message: "blog got successfully", details: response, nextCursor: response.length === take ? nextCursor : undefined })
   } catch (e) {
     return c.json({ message: "caught an error", error: e })
   }
@@ -136,3 +161,4 @@ postRouter.get('/:blogId', userAuthMiddleware, async (c: Context) => {
     return c.json({ message: "caught an error", error: e })
   }
 })
+

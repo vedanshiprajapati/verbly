@@ -1,1 +1,19 @@
-you can do strech of integrating it with ai using langchain and produce quiz from blogs info 
+welcome to verbly - a blogging website!
+
+## run the project
+
+```
+git clone
+```
+
+```
+cd frontend
+```
+
+```
+npm install
+```
+
+```
+npm run dev
+```

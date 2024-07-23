@@ -35,7 +35,7 @@ export default function Login() {
   return (
     <>
       <div className="w-full h-screen flex justify-center items-center">
-        <Card className="w-[350px]">
+        <Card className="w-[350px] shadow-md border rounded-lg">
           <CardHeader>
             <CardTitle>Login</CardTitle>
             <CardDescription>

@@ -22,3 +22,16 @@ export const postSignup = async (data: signup): Promise<any> => {
     }
     return response.json();
 }
+export const GetProfile = async (username: string) => {
+    const response = await fetch(`${BACKEND_URL}user/${username}`, {
+        headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('falied to get profile');
+    }
+
+    return response.json();
+}

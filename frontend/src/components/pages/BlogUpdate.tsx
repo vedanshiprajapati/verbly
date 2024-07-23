@@ -1,4 +1,3 @@
-import { BACKEND_URL, token } from "@/constants/const";
 import BlogEditor from "../Reusables/BlogEditor";
 import { Input } from "../plate-ui/input";
 import { Button } from "../ui/button";
@@ -9,12 +8,10 @@ import { Value } from "@udecode/plate-common";
 import { UpdateIndividualBlog, fetchIndividualBlogs } from "@/api/blog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import NotFound from "./NotFound";
+import { BlogPostSkeleton } from "./Blog";
 
 export default function BlogUpdate() {
   const { id } = useParams();
-  if (!id) {
-    return <NotFound />;
-  }
   const Navigate = useNavigate();
   const [content, setContent] = useState<Value>([]);
   const [title, setTitle] = useState("");
@@ -25,16 +22,6 @@ export default function BlogUpdate() {
     enabled: !!id,
   });
 
-  if (individualBlogQuery.isLoading) {
-    return <div>Loading...</div>;
-  }
-  useEffect(() => {
-    if (individualBlogQuery.isSuccess) {
-      setTitle(individualBlogQuery.data.details.title);
-      setContent(JSON.parse(individualBlogQuery.data.details.content));
-    }
-  }, [individualBlogQuery.isSuccess, individualBlogQuery.data]);
-
   const queryClient = useQueryClient();
   const updateBlogMutation = useMutation({
     mutationFn: UpdateIndividualBlog,
@@ -44,6 +31,21 @@ export default function BlogUpdate() {
       Navigate(`/blog/${data?.details?.id}`);
     },
   });
+
+  useEffect(() => {
+    if (individualBlogQuery.isSuccess) {
+      setTitle(individualBlogQuery.data.details.title);
+      setContent(JSON.parse(individualBlogQuery.data.details.content));
+    }
+  }, [individualBlogQuery.isSuccess, individualBlogQuery.data]);
+
+  if (!id) {
+    return <NotFound />;
+  }
+
+  if (individualBlogQuery.isLoading) {
+    return <BlogPostSkeleton />;
+  }
 
   const handleSubmit = () => {
     const blogInfo: createBlog = {

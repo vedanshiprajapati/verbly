@@ -21,7 +21,7 @@ export function AvatarDropdown() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
         <DropdownMenuItem>
-          <Link to={"/Profile"}>Profile</Link>
+          <Link to={`/${localStorage.getItem("user")}`}>Profile</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

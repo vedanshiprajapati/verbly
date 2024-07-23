@@ -1,0 +1,326 @@
+[
+    {
+        "type": "p",
+        "children": [
+            {
+                "text": "An ",
+                "fontSize": "16px",
+                "backgroundColor": "rgb(27, 27, 27)",
+                "color": "rgb(255, 255, 255)"
+            },
+            {
+                "text": "arrow function expression",
+                "bold": true,
+                "fontSize": "16px",
+                "backgroundColor": "rgb(27, 27, 27)",
+                "color": "rgb(255, 255, 255)"
+            },
+            {
+                "text": " is a compact alternative to a traditional ",
+                "fontSize": "16px",
+                "backgroundColor": "rgb(27, 27, 27)",
+                "color": "rgb(255, 255, 255)"
+            },
+            {
+                "target": "_blank",
+                "type": "a",
+                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function",
+                "children": [
+                    {
+                        "text": "function expression",
+                        "fontSize": "16px",
+                        "backgroundColor": "rgb(27, 27, 27)",
+                        "color": "rgb(255, 255, 255)"
+                    }
+                ],
+                "id": "14df6"
+            },
+            {
+                "text": ", with some semantic differences and deliberate limitations in usage:",
+                "fontSize": "16px",
+                "backgroundColor": "rgb(27, 27, 27)",
+                "color": "rgb(255, 255, 255)"
+            }
+        ],
+        "id": "my28u"
+    },
+    {
+        "type": "ul",
+        "children": [
+            {
+                "type": "li",
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "text": "Arrow functions don't have their own ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Glossary/Binding",
+                                "children": [
+                                    {
+                                        "text": "bindings",
+                                        "fontSize": "16px",
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "x8pok"
+                            },
+                            {
+                                "text": " to ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+                                "children": [
+                                    {
+                                        "text": "this",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "9rkl9"
+                            },
+                            {
+                                "text": ", ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments",
+                                "children": [
+                                    {
+                                        "text": "arguments",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "mw3dt"
+                            },
+                            {
+                                "text": ", or ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+                                "children": [
+                                    {
+                                        "text": "super",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "btd2i"
+                            },
+                            {
+                                "text": ", and should not be used as ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Glossary/Method",
+                                "children": [
+                                    {
+                                        "text": "methods",
+                                        "fontSize": "16px",
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "lgkxz"
+                            },
+                            {
+                                "text": ".",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            }
+                        ],
+                        "type": "lic",
+                        "id": "3y1c7"
+                    }
+                ],
+                "id": "hlv8n"
+            },
+            {
+                "type": "li",
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "text": "Arrow functions cannot be used as ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Glossary/Constructor",
+                                "children": [
+                                    {
+                                        "text": "constructors",
+                                        "fontSize": "16px",
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "94q35"
+                            },
+                            {
+                                "text": ". Calling them with ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new",
+                                "children": [
+                                    {
+                                        "text": "new",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "iaise"
+                            },
+                            {
+                                "text": " throws a ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+                                "children": [
+                                    {
+                                        "text": "TypeError",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "0bk1u"
+                            },
+                            {
+                                "text": ". They also don't have access to the ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target",
+                                "children": [
+                                    {
+                                        "text": "new.target",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "vh51f"
+                            },
+                            {
+                                "text": " keyword.",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            }
+                        ],
+                        "type": "lic",
+                        "id": "8m900"
+                    }
+                ],
+                "id": "xppsc"
+            },
+            {
+                "type": "li",
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "text": "Arrow functions cannot use ",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            },
+                            {
+                                "target": "_blank",
+                                "type": "a",
+                                "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield",
+                                "children": [
+                                    {
+                                        "text": "yield",
+                                        "fontSize": "16px",
+                                        "code": true,
+                                        "backgroundColor": "rgb(27, 27, 27)",
+                                        "color": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "id": "iohyo"
+                            },
+                            {
+                                "text": " within their body and cannot be created as generator functions.",
+                                "fontSize": "16px",
+                                "backgroundColor": "rgb(27, 27, 27)",
+                                "color": "rgb(255, 255, 255)"
+                            }
+                        ],
+                        "type": "lic",
+                        "id": "rk6kx"
+                    }
+                ],
+                "id": "8fwgs"
+            }
+        ],
+        "id": "vzafx"
+    },
+    {
+        "children": [
+            {
+                "text": "\n",
+                "fontSize": "16px",
+                "backgroundColor": "rgb(27, 27, 27)",
+                "color": "rgb(255, 255, 255)"
+            }
+        ],
+        "type": "p",
+        "id": "felug"
+    }
+]

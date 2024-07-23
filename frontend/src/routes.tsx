@@ -8,6 +8,8 @@ import BlogEdit from "./components/pages/BlogEdit";
 import Signup from "./components/pages/Signup";
 import BlogUpdate from "./components/pages/BlogUpdate";
 import NotFound from "./components/pages/NotFound";
+import UserProtectedRoute from "./components/Reusables/UserProtectedRoute";
+import ProfilePage from "./components/pages/Profile";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<NavBar />}>
@@ -15,9 +17,13 @@ const AppRoutes = () => (
     </Route>
     <Route path="/" element={<ProtectedRoute />}>
       <Route path="/" element={<NavBar />}>
+        <Route path="/Profile" element={<ProfilePage />} />
         <Route path="/blog/edit" element={<BlogEdit />} />
         <Route path="/blog/:id" element={<Blog />} />
-        <Route path="/blog/:id/edit" element={<BlogUpdate />} />
+        <Route path="/:username" element={<ProfilePage />} />
+        <Route path="/" element={<UserProtectedRoute />}>
+          <Route path="/blog/:id/edit" element={<BlogUpdate />} />
+        </Route>
       </Route>
     </Route>
     <Route path="/login" element={<Login />} />

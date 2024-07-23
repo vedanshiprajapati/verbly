@@ -1,11 +1,13 @@
 import { postLogin, postSignup } from "@/api/user";
 import { useMutation } from "@tanstack/react-query";
 import { signin, signup } from "@vedanshi/verbly-common";
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 type AuthProviderProps = {
   children: ReactNode;
 };
+
 type AuthContextType = {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +18,7 @@ type AuthContextType = {
   isLoggingPending: boolean;
   isSignUpPending: boolean;
 };
+
 const initialState: AuthContextType = {
   isAuthenticated: false,
   setIsAuthenticated: () => {},
@@ -26,6 +29,7 @@ const initialState: AuthContextType = {
   isLoggingPending: false,
   isSignUpPending: false,
 };
+
 export const AuthContext: React.Context<AuthContextType> =
   createContext<AuthContextType>(initialState);
 
@@ -57,8 +61,8 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
         setUser(variables.username);
         localStorage.setItem("isAuthenticated", JSON.stringify(true));
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(variables.username));
-        Navigate("/");
+        localStorage.setItem("user", variables.username);
+        Navigate(-1);
       }
     },
     onError: (error) => {
@@ -77,7 +81,7 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
         localStorage.setItem("isAuthenticated", JSON.stringify(true));
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", variables.username);
-        Navigate("/");
+        Navigate(-1);
       }
     },
     onError: (error) => {
@@ -105,20 +109,32 @@ export const AuthProvider = ({ children, ...props }: AuthProviderProps) => {
     Navigate("/login");
   };
 
+  // added usememo hook so that the context value only changes when one of its dependencies changes
+  const contextValue = useMemo(
+    () => ({
+      isAuthenticated,
+      setIsAuthenticated,
+      login,
+      signUp,
+      logout,
+      user,
+      isLoggingPending: loginMutation.isPending,
+      isSignUpPending: signUpMutation.isPending,
+    }),
+    [
+      isAuthenticated,
+      setIsAuthenticated,
+      login,
+      signUp,
+      logout,
+      user,
+      loginMutation.isPending,
+      signUpMutation.isPending,
+    ]
+  );
+
   return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated,
-        setIsAuthenticated,
-        login,
-        signUp,
-        logout,
-        user,
-        isLoggingPending: loginMutation.isPending,
-        isSignUpPending: signUpMutation.isPending,
-      }}
-      {...props}
-    >
+    <AuthContext.Provider value={contextValue} {...props}>
       {children}
     </AuthContext.Provider>
   );

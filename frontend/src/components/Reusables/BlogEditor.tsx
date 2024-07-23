@@ -376,7 +376,6 @@ const BlogEditor = ({
 }: props) => {
   const handlesubmit = (value: Value) => {
     setContent(value);
-    console.log(content);
   };
   return (
     <DndProvider backend={HTML5Backend}>
@@ -398,9 +397,9 @@ const BlogEditor = ({
 
             <Editor />
 
-            <FloatingToolbar>
+            {/* <FloatingToolbar>
               <FloatingToolbarButtons />
-            </FloatingToolbar>
+            </FloatingToolbar> */}
             <CommentsPopover />
           </Plate>
         </CommentsProvider>
