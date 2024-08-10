@@ -59,18 +59,19 @@ export default function BlogUpdate() {
   };
 
   return (
+    // blog update page
     <>
-      <div className="border-b border-black mx-24 mt-12">
+      <div className="border-b border-black mx-4 sm:mx-8 md:mx-16 lg:mx-24 mt-6 sm:mt-8 md:mt-12">
         <Input
           onChange={(value) => {
             setTitle(value.target.value);
           }}
           defaultValue={title}
-          className="border-none h-12 text-2xl font-bold"
+          className="border-none h-10 sm:h-12 text-xl sm:text-2xl font-bold w-full"
           placeholder="Title"
         />
       </div>
-      <div className="px-24 py-12 flex flex-col items-center gap-10 w-full">
+      <div className="px-4 sm:px-8 md:px-16 lg:px-24 py-6 sm:py-8 md:py-12 flex flex-col items-center gap-6 sm:gap-8 md:gap-10 w-full">
         {content.length > 0 && (
           <BlogEditor
             content={content}
@@ -79,12 +80,13 @@ export default function BlogUpdate() {
             initialValue={content}
           />
         )}
-        <div className="flex justify-between w-full">
+        <div className="flex flex-col sm:flex-row justify-between w-full gap-4 sm:gap-0">
           <Button
             variant={"outline"}
             onClick={() => {
               Navigate(`/blog/${id}`);
             }}
+            className="w-full sm:w-auto"
           >
             Cancel
           </Button>
@@ -95,6 +97,7 @@ export default function BlogUpdate() {
               title.length === 0 ||
               content.length === 0
             }
+            className="w-full sm:w-auto"
           >
             {updateBlogMutation.isPending ? "publishing..." : "publish"}
           </Button>

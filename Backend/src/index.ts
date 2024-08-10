@@ -1,5 +1,5 @@
 import { Context, Hono } from 'hono'
-import { PrismaClient } from '@prisma/client/edge'
+import { PrismaClient, User } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { userRouter } from './routes/user';
 import { postRouter } from './routes/post';

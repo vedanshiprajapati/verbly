@@ -41,7 +41,7 @@ export default function Blog() {
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-3xl font-bold ">{data?.title}</h2>
-                <Link to={`/${data?.author?.username}`}>
+                <Link to={`/@${data?.author?.username}`}>
                   <div className="flex items-center gap-4 mt-4">
                     <Avatar className="w-10 h-10">
                       <AvatarFallback>

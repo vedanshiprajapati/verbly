@@ -9,7 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
 import { BlogDetails } from "../pages/Home";
-
+import { FollowerPointerCard } from "../ui/following-pointer";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 interface BlogcardProps {
   BlogDetails: BlogDetails;
 }
@@ -41,7 +42,7 @@ const Blogcard: React.FC<BlogcardProps> = ({ BlogDetails }) => {
 
   function createPreview(text: string, maxLength = 100) {
     if (text.length <= maxLength) return text;
-    return text.substr(0, maxLength).trim() + "...";
+    return text.substring(0, maxLength).trim() + "...";
   }
   const fullText = extractTextContent(content);
   const previewText = createPreview(fullText);
@@ -49,43 +50,58 @@ const Blogcard: React.FC<BlogcardProps> = ({ BlogDetails }) => {
   return (
     <>
       <Link to={`/blog/${BlogDetails?.id}`}>
+        {/* <FollowerPointerCard
+          title={<TitleComponent title={BlogDetails?.author?.username} />}
+        > */}
         <Card
-          className=" mx-auto border-b-2 outline-2 dark:hover:bg-slate-800 hover:bg-slate-100"
+          className="mx-auto border-b-2 outline-2 dark:hover:bg-slate-800 hover:bg-stone-200 w-full transition-all duration-300"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           <CardHeader className="pb-2 mb-2">
-            <CardTitle className="text-lg font-bold uppercase ">
+            <CardTitle className="text-base sm:text-lg md:text-xl font-bold uppercase">
               {BlogDetails?.title}
             </CardTitle>
             <div
               className={`h-[2px] ${
-                !isHovering && "w-8"
-              } transition-all duration-300 bg-black dark:bg-white ${
-                isHovering && "w-2/3"
-              }`}
+                !isHovering ? "w-8" : "w-2/3"
+              } transition-all duration-300 bg-black dark:bg-white`}
             ></div>
           </CardHeader>
           <CardContent className="mb-2">
-            <p className="text-gray-600 text-muted-foreground truncate overflow-hidden text-ellipsis whitespace-nowrap-">
+            <p className="text-gray-600 text-muted-foreground line-clamp-2 text-xs sm:text-sm">
               {previewText}
             </p>
           </CardContent>
           <CardFooter className="mt-2 text-right">
-            <p className="text-primary font-semibold hover:underline">
+            <p className="text-primary font-semibold hover:underline text-xs sm:text-sm">
               Read More
             </p>
           </CardFooter>
         </Card>
+        {/* </FollowerPointerCard> */}
       </Link>
     </>
   );
 };
 
+// this is for following pointer
+function TitleComponent({ title }: { title: string }) {
+  return (
+    <>
+      <div className="flex space-x-2 items-center bg-stone-800 dark:bg-slate-600 rounded-full px-3 py-2">
+        <Avatar className="w-6 h-6 text-[10px]">
+          <AvatarFallback>{title[0]}</AvatarFallback>
+        </Avatar>
+        <p>{title}</p>
+      </div>
+    </>
+  );
+}
 export function BlogCardSkeleton() {
   return (
     <Card className="w-[48rem] ">
-      <CardContent className="grid gap-4 p-6 w-[48rem]">
+      <CardContent className="grid gap-4 p-6 md:w-[48rem] w-[20rem]">
         <div className="space-y-2 max-w-2xl">
           <Skeleton className="h-8 w-3/4" />
           <Skeleton className="h-4 w-full" />
@@ -95,7 +111,7 @@ export function BlogCardSkeleton() {
             <Skeleton className="h-10 w-10 rounded-full" />
             <Skeleton className="h-4 w-20" />
           </div> */}
-          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 md:w-24 w-18" />
         </div>
       </CardContent>
     </Card>

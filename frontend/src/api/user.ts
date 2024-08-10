@@ -35,3 +35,20 @@ export const GetProfile = async (username: string) => {
 
     return response.json();
 }
+
+export const UpdateProfile = async (data: { name: string, email: string, username: string }) => {
+    const response = await fetch(`${BACKEND_URL}user/profile/edit`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to update profile');
+    }
+
+    return response.json();
+};

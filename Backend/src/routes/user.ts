@@ -49,29 +49,6 @@ userRouter.post('/signup', async (c: Context) => {
   }
 })
 
-userRouter.get("/:username", userAuthMiddleware, async (c: Context) => {
-  try {
-    const { username } = c.req.param()
-    const prisma = c.get("prisma");
-    const response = await prisma.user.findFirst({
-      where: {
-        username: username,
-      },
-      select: {
-        email: true,
-        username: true,
-        name: true,
-        id: true,
-        posts: true
-      }
-    })
-    c.status(200);
-    return c.json({ message: "user details sent successfully", details: response, success: "OK" })
-  } catch (error: any) {
-    c.status(500);
-    return c.json({ message: "something is wrong", error: error.message });
-  }
-})
 userRouter.post('/signin', async (c: Context) => {
   try {
     const prisma = c.get('prisma');
@@ -100,3 +77,48 @@ userRouter.post('/signin', async (c: Context) => {
   }
 
 })
+
+userRouter.get("/:username", userAuthMiddleware, async (c: Context) => {
+  try {
+    const { username } = c.req.param()
+    const prisma = c.get("prisma");
+    const response = await prisma.user.findFirst({
+      where: {
+        username: username,
+      },
+      select: {
+        email: true,
+        username: true,
+        name: true,
+        id: true,
+        posts: true
+      }
+    })
+    c.status(200);
+    return c.json({ message: "user details sent successfully", details: response, success: "OK" })
+  } catch (error: any) {
+    c.status(500);
+    return c.json({ message: "something is wrong", error: error.message });
+  }
+})
+
+userRouter.put("/profile/edit", userAuthMiddleware, async (c: Context) => {
+  try {
+    const userId = c.get("id");
+    const body = await c.req.json();
+    const prisma = c.get("prisma");
+    const response = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        email: body?.email,
+        name: body?.name,
+        username: body?.username
+      },
+    });
+    c.status(200);
+    return c.json({ message: "Profile updated successfully", details: response });
+  } catch (error: any) {
+    c.status(500);
+    return c.json({ message: "Something went wrong", error: error.message });
+  }
+});

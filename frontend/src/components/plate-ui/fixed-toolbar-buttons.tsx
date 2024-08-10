@@ -71,6 +71,7 @@ export function FixedToolbarButtons() {
                 <Icons.code />
               </MarkToolbarButton>
             </ToolbarGroup>
+
             <ToolbarGroup>
               <ColorDropdownMenu nodeType={MARK_COLOR} tooltip="Text Color">
                 <Icons.color className={iconVariants({ variant: "toolbar" })} />

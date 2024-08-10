@@ -90,7 +90,7 @@ export default function Login() {
                   type="submit"
                   disabled={isLoggingPending || isLoading}
                 >
-                  Login
+                  {isLoggingPending || isLoading ? "Logging in..." : "Login"}
                 </Button>
               </div>
             </form>

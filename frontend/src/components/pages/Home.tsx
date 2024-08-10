@@ -60,8 +60,8 @@ export default function Home() {
     data?.pages?.flatMap((page) => page.details) || [];
   return (
     <>
-      <div className="flex flex-col items-center mt-16">
-        <div className="max-w-3xl flex flex-col gap-3">
+      <div className="flex flex-col items-center mt-8 sm:mt-16">
+        <div className="w-full max-w-3xl px-4 sm:px-6 lg:px-8">
           {status === "pending" && <BlogCardSkeleton />}
           {data2?.map((item, index) => {
             return <Blogcard BlogDetails={item} key={index} />;
@@ -81,7 +81,7 @@ function HomepageUnauthenticated() {
   return (
     <>
       <div className="h-screen relative w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
-        <div className="w-full absolute inset-0 h-screen ">
+        <div className="w-full absolute inset-0">
           <SparklesCore
             id="tsparticlesfullpage"
             background="transparent"

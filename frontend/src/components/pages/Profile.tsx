@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BookOpenIcon, UserIcon } from "lucide-react";
+import { BookOpenIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GetProfile } from "@/api/user";
 import Blogcard from "../Reusables/Blogcard";
 import { Skeleton } from "../ui/skeleton";
 import { useParams } from "react-router-dom";
-
+import EditProfileModal from "../Reusables/EditProfilePopup";
+import { jwtDecode } from "jwt-decode";
 const ProfilePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState("posts");
   const [isUserProfile, setIsUserProfile] = useState(false);
-  const { username } = useParams();
+  let { username } = useParams();
 
+  username = username?.slice(1);
   useEffect(() => {
-    if (username === localStorage.getItem("user")) {
+    const token = localStorage.getItem("token") || "";
+    const decoded = jwtDecode(token) as { id: string; username: string };
+    if (username === decoded.username) {
       setIsUserProfile(true);
     }
   }, [username]);
@@ -36,13 +40,9 @@ const ProfilePage: React.FC = () => {
   }
 
   let user = profileQuery.isSuccess && profileQuery.data.details;
-  // if (profileQuery.isFetching) {
-  //   return <ProfileSkeleton />;
-  // }
   if (profileQuery.isLoading) {
     return <ProfileSkeleton />;
   }
-
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
@@ -56,8 +56,13 @@ const ProfilePage: React.FC = () => {
             {user?.name || user?.username}
           </h1>
           <p className="text-gray-600 mb-2">@{user?.username}</p>
-          <p className="text-gray-700 mb-4">{user?.email}</p>
-          {isUserProfile && <Button variant="outline">Edit Profile</Button>}
+          {/* <p className="text-gray-700 mb-4">{user?.email}</p> */}
+          {/* {isUserProfile && (
+            <Button variant="outline" onClick={() => setIsEditModalOpen(true)}>
+              Edit Profile
+            </Button>
+          )} */}
+          {isUserProfile && user && <EditProfileModal currentUser={user} />}
         </div>
       </div>
 
@@ -69,12 +74,6 @@ const ProfilePage: React.FC = () => {
           >
             <BookOpenIcon className="mr-2 h-4 w-4" /> Posts
           </Button>
-          <Button
-            variant={activeSection === "about" ? "default" : "outline"}
-            onClick={() => setActiveSection("about")}
-          >
-            <UserIcon className="mr-2 h-4 w-4" /> About
-          </Button>
         </div>
 
         {activeSection === "posts" && (
@@ -85,19 +84,25 @@ const ProfilePage: React.FC = () => {
           </div>
         )}
 
-        {activeSection === "about" && (
+        {/* {activeSection === "about" && (
           <Card>
             <CardContent className="p-6">
               <h2 className="text-2xl font-semibold mb-4">
                 About {user.name || user.username}
               </h2>
-              <p className="text-gray-700">User ID: {user.id}</p>
               <p className="text-gray-700">Email: {user.email}</p>
               <p className="text-gray-700">Username: {user.username}</p>
             </CardContent>
           </Card>
-        )}
+        )} */}
       </div>
+      {/* {isUserProfile && user && (
+        <EditProfileModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          currentUser={user}
+        />
+      )} */}
     </div>
   );
 };
@@ -119,9 +124,6 @@ export function ProfileSkeleton() {
         <div className="flex space-x-4 mb-6">
           <Button variant="outline" disabled>
             <Skeleton className="h-4 w-4 mr-2" /> Posts
-          </Button>
-          <Button variant="outline" disabled>
-            <Skeleton className="h-4 w-4 mr-2" /> About
           </Button>
         </div>
 

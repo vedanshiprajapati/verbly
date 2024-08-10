@@ -17,7 +17,6 @@ const AppRoutes = () => (
     </Route>
     <Route path="/" element={<ProtectedRoute />}>
       <Route path="/" element={<NavBar />}>
-        <Route path="/Profile" element={<ProfilePage />} />
         <Route path="/blog/edit" element={<BlogEdit />} />
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/:username" element={<ProfilePage />} />

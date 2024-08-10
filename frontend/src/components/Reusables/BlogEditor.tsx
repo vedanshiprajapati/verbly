@@ -378,6 +378,7 @@ const BlogEditor = ({
     setContent(value);
   };
   return (
+    // blog editor component
     <DndProvider backend={HTML5Backend}>
       <TooltipProvider>
         <CommentsProvider users={{}} myUserId="1">
@@ -390,12 +391,13 @@ const BlogEditor = ({
             readOnly={readonly}
           >
             {!readonly && (
-              <FixedToolbar>
+              <FixedToolbar className="sticky top-0 z-50 bg-background">
                 <FixedToolbarButtons />
               </FixedToolbar>
             )}
-
+            {/* <div className="min-h-[300px]"> */}
             <Editor />
+            {/* </div> */}
 
             {/* <FloatingToolbar>
               <FloatingToolbarButtons />

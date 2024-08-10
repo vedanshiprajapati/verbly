@@ -30,7 +30,6 @@ export default function Signup() {
     const userInputs = data as signup;
     console.log(userInputs);
     signUp(userInputs);
-    console.log("function pura hua");
     reset();
   };
   return (
