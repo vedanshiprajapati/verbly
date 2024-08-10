@@ -9,7 +9,6 @@ import {
 import { Link } from "react-router-dom";
 import { Skeleton } from "../ui/skeleton";
 import { BlogDetails } from "../pages/Home";
-import { FollowerPointerCard } from "../ui/following-pointer";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 interface BlogcardProps {
   BlogDetails: BlogDetails;

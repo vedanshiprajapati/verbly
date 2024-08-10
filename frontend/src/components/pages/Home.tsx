@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchAllBlogs } from "@/api/blog";
 import { SparklesCore } from "../ui/sparkles";
+import { useTheme } from "../context/ThemeProvider";
 
 export interface BlogDetails {
   title: string;
@@ -78,6 +79,7 @@ export default function Home() {
 }
 
 function HomepageUnauthenticated() {
+  const theme = useTheme();
   return (
     <>
       <div className="h-screen relative w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
@@ -89,12 +91,12 @@ function HomepageUnauthenticated() {
             maxSize={1.4}
             particleDensity={100}
             className="w-full h-full"
-            particleColor="#FFFFFF"
+            particleColor={theme.theme === "dark" ? "#FFFFFF" : "#021129"}
           />
         </div>
         <div className="flex flex-col items-center justify-center ">
           <div>
-            <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white relative z-20">
+            <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center  relative z-20">
               Welcome to Verbly
             </h1>
             <div className="w-[40rem] relative mt-2">
@@ -106,10 +108,10 @@ function HomepageUnauthenticated() {
           </div>
           <div className="flex mt-7 space-x-4 ">
             <Button className="z-20">
-              <Link to={"/login"}>Sign In</Link>
+              <Link to={"/signup"}>Sign Up</Link>
             </Button>
             <Button variant={"link"} className="z-20">
-              <Link to={"/signup"}> Sign Up</Link>
+              <Link to={"/login"}> Sign In</Link>
             </Button>
           </div>
         </div>

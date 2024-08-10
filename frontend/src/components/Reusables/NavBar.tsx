@@ -1,4 +1,4 @@
-import { Sun, Moon, PenTool } from "lucide-react";
+import { Sun, Moon, PenTool, Search } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { Button } from "../ui/button";
 import { useTheme } from "../context/ThemeProvider";
@@ -7,6 +7,12 @@ import { AvatarDropdown } from "./AvatarDropdown";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Separator } from "@/components/ui/separator";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
+import { Input } from "../ui/input";
 
 export default function NavBar() {
   const { theme, setTheme } = useTheme();
@@ -24,7 +30,7 @@ export default function NavBar() {
               <Link to="/" className="flex items-center space-x-2">
                 <span className="font-bold text-xl sm:text-2xl">Verbly</span>
               </Link>
-              {/* <div className="hidden md:block">
+              <div className="hidden md:block">
                 <HoverCard>
                   <HoverCardTrigger asChild>
                     {isAuthenticated && (
@@ -48,7 +54,7 @@ export default function NavBar() {
                     </div>
                   </HoverCardContent>
                 </HoverCard>
-              </div> */}
+              </div>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="flex items-center space-x-2">

@@ -1,15 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-
-import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
+import type { DropdownMenuProps } from "@radix-ui/react-dropdown-menu";
 
 import {
   useAlignDropdownMenu,
   useAlignDropdownMenuState,
-} from '@udecode/plate-alignment';
+} from "@udecode/plate-alignment";
 
-import { Icons, iconVariants } from '@/components/icons';
+import { Icons, iconVariants } from "@/components/icons";
 
 import {
   DropdownMenu,
@@ -18,25 +16,25 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
   useOpenState,
-} from './dropdown-menu';
-import { ToolbarButton } from './toolbar';
+} from "./dropdown-menu";
+import { ToolbarButton } from "./toolbar";
 
 const items = [
   {
     icon: Icons.alignLeft,
-    value: 'left',
+    value: "left",
   },
   {
     icon: Icons.alignCenter,
-    value: 'center',
+    value: "center",
   },
   {
     icon: Icons.alignRight,
-    value: 'right',
+    value: "right",
   },
   {
     icon: Icons.alignJustify,
-    value: 'justify',
+    value: "justify",
   },
 ];
 
@@ -64,7 +62,7 @@ export function AlignDropdownMenu({ children, ...props }: DropdownMenuProps) {
         >
           {items.map(({ icon: Icon, value: itemValue }) => (
             <DropdownMenuRadioItem hideIcon key={itemValue} value={itemValue}>
-              <Icon className={iconVariants({ variant: 'toolbar' })} />
+              <Icon className={iconVariants({ variant: "toolbar" })} />
             </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>

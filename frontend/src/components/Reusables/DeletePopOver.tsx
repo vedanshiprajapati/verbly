@@ -12,15 +12,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Eraser } from "lucide-react";
 
 export function DeletePopOver({
   id,
   disabled,
   setDisabled,
+  mobileView,
 }: {
   id: string;
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  mobileView: boolean;
 }) {
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
@@ -37,9 +40,15 @@ export function DeletePopOver({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" disabled={disabled}>
-          Delete
-        </Button>
+        {mobileView ? (
+          <button disabled={disabled} className="flex items-center">
+            <Eraser className="w-4 h-4 mr-2" /> Delete
+          </button>
+        ) : (
+          <Button variant="outline" disabled={disabled}>
+            <Eraser className="w-4 h-4 mr-2" /> Delete
+          </Button>
+        )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

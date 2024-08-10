@@ -1,5 +1,3 @@
-import React from "react";
-
 import type { IconProps } from "@radix-ui/react-icons/dist/types";
 
 import { cva } from "class-variance-authority";
