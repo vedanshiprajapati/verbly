@@ -4,8 +4,9 @@ compatibility_date = "2023-12-01"
 [vars]
 DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNzVlYWU2YmMtZjdiMS00YmIyLWExMjMtYjQ2ZDdiOTBlMGM0IiwidGVuYW50X2lkIjoiOTMwMzQ3ZWE5OGU2ZDU2YzVmY2JjNjlkMWIwOWZiZTdlMTQxMDEzNGZhMmZkZTlhNDRiZTI1YWQwMDEyNGM4ZCIsImludGVybmFsX3NlY3JldCI6ImFhNGVjMDZlLThiNmEtNGQ0NS05YWI0LWY4ZDMwOTY3Yzg4OCJ9.yAtad46VPhYHP4JVdUor1x9HEF7hRBRXqC49lC18lvw"
 
-JWT_SECRET = "signatureBaby"
-
+JWT_SECRET = "signatureJWT"
+GOOGLE_API_KEY = "AIzaSyAE4m7VJkjF38ywO4fMtUspqFKcCiVSBR0"
+SEARCH_ENGINE_ID = "f1e1579118ba44d87"
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

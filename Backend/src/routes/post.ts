@@ -1,14 +1,15 @@
 import { PrismaClient } from "@prisma/client/extension"
 import { Context, Hono } from "hono"
 import { userAuthMiddleware } from "../middlewares/auth"
-import { GOOGLE_API_KEY, SEARCH_ENGINE_ID } from "../utils/constant"
 
 
 export const postRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string,
     JWT_SECRET: string,
-    prisma: PrismaClient
+    prisma: PrismaClient,
+    GOOGLE_API_KEY: string,
+    SEARCH_ENGINE_ID: string
   }
 }>()
 
@@ -42,7 +43,7 @@ postRouter.get("/search/global", userAuthMiddleware, async (c: Context) => {
   try {
     const query = c.req.query("q");
     const startIndex = c.req.query("startIndex")
-    const url = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${GOOGLE_API_KEY}&cx=${SEARCH_ENGINE_ID}&start=${startIndex}`
+    const url = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${c.env.GOOGLE_API_KEY}&cx=${c.env.SEARCH_ENGINE_ID}&start=${startIndex}`
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);

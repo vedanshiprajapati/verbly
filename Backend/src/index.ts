@@ -9,7 +9,9 @@ const app = new Hono<{
   Bindings: {
     DATABASE_URL: string,
     JWT_SECRET: string,
-    prisma: PrismaClient
+    prisma: PrismaClient,
+    GOOGLE_API_KEY: string,
+    SEARCH_ENGINE_ID: string
   }
 }>()
 app.use('*', cors());
