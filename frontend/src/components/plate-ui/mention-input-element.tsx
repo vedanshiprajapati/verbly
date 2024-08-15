@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { cn, withRef } from "@udecode/cn";
 import { PlateElement } from "@udecode/plate-common";

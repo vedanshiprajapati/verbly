@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
-import { withRef } from '@udecode/cn';
-import { PlateElement } from '@udecode/plate-common';
-import { EmojiInlineIndexSearch, insertEmoji } from '@udecode/plate-emoji';
+import { withRef } from "@udecode/cn";
+import { PlateElement } from "@udecode/plate-common";
+import { EmojiInlineIndexSearch, insertEmoji } from "@udecode/plate-emoji";
 
-import { useDebounce } from '@/hooks/use-debounce';
+import { useDebounce } from "@/hooks/use-debounce";
 
 import {
   InlineCombobox,
@@ -12,12 +12,12 @@ import {
   InlineComboboxEmpty,
   InlineComboboxInput,
   InlineComboboxItem,
-} from './inline-combobox';
+} from "./inline-combobox";
 
 export const EmojiInputElement = withRef<typeof PlateElement>(
   ({ className, ...props }, ref) => {
     const { children, editor, element } = props;
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState("");
     const debouncedValue = useDebounce(value, 100);
     const isPending = value !== debouncedValue;
 
@@ -25,7 +25,7 @@ export const EmojiInputElement = withRef<typeof PlateElement>(
       if (debouncedValue.trim().length === 0) return [];
 
       return EmojiInlineIndexSearch.getInstance()
-        .search(debouncedValue.replace(/:$/, ''))
+        .search(debouncedValue.replace(/:$/, ""))
         .get();
     }, [debouncedValue]);
 

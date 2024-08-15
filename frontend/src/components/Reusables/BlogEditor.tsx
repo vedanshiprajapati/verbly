@@ -157,8 +157,6 @@ import { KbdLeaf } from "@/components/plate-ui/kbd-leaf";
 import { Editor } from "@/components/plate-ui/editor";
 import { FixedToolbar } from "@/components/plate-ui/fixed-toolbar";
 import { FixedToolbarButtons } from "@/components/plate-ui/fixed-toolbar-buttons";
-import { FloatingToolbar } from "@/components/plate-ui/floating-toolbar";
-import { FloatingToolbarButtons } from "@/components/plate-ui/floating-toolbar-buttons";
 import { withPlaceholders } from "@/components/plate-ui/placeholder";
 import { withDraggables } from "@/components/plate-ui/with-draggables";
 import { TooltipProvider } from "../plate-ui/tooltip";
@@ -369,7 +367,6 @@ type props = {
   initialValue?: Value;
 };
 const BlogEditor = ({
-  content,
   setContent = () => {},
   readonly,
   initialValue = initialValue1,
