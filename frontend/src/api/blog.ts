@@ -103,3 +103,27 @@ export const GetIsEditable = async (id: string) => {
     }
     return response.json();
 };
+
+export const BlogSearch = async (query: string) => {
+    const response = await fetch(`${BACKEND_URL}blog/search?q=${query}`, {
+        headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+
+    if (!response.ok) {
+        throw new Error("Failed to get BlogSearch");
+    }
+    return response.json();
+
+}
+
+export const GlobalBlogSearch = async (query: string, startIndex: number) => {
+    const response = await fetch(`${BACKEND_URL}blog/search/global?q=${query}&startIndex=${startIndex}`, {
+        headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    if (!response.ok) {
+        throw new Error("Failed to get BlogSearch");
+    }
+
+    return response.json();
+
+}

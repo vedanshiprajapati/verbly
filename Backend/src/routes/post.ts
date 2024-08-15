@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client/extension"
 import { Context, Hono } from "hono"
 import { userAuthMiddleware } from "../middlewares/auth"
+import { GOOGLE_API_KEY, SEARCH_ENGINE_ID } from "../utils/constant"
 
 
 export const postRouter = new Hono<{
@@ -36,6 +37,61 @@ postRouter.post('/edit', userAuthMiddleware, async (c: Context) => {
   }
 
 })
+
+postRouter.get("/search/global", userAuthMiddleware, async (c: Context) => {
+  try {
+    const query = c.req.query("q");
+    const startIndex = c.req.query("startIndex")
+    const url = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${GOOGLE_API_KEY}&cx=${SEARCH_ENGINE_ID}&start=${startIndex}`
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    c.status(200);
+    return c.json({ message: "Global Search result fetched Successfully", details: data, success: "ok" })
+  } catch (error: any) {
+    c.status(500);
+    return c.json({ message: "caught an error", error: error.message })
+  }
+})
+
+postRouter.get("/search", userAuthMiddleware, async (c: Context) => {
+  try {
+    const prisma = c.get("prisma");
+    const query = c.req.query("q");
+    const response = await prisma.post.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: query,
+              mode: "insensitive", // Makes the search case-insensitive
+            },
+          },
+          {
+            author: {
+              name: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
+      },
+      select: {
+        title: true,
+        content: true,
+        author: true,
+        id: true,
+      }
+    })
+    c.status(200)
+    return c.json({ message: "blogs fetched successfully", details: response })
+  } catch (error: any) {
+    c.status(500)
+    return c.json({ message: "got an error", error: error.message })
+  }
+})
+
 postRouter.get("/:blogid/iseditable", userAuthMiddleware, async (c: Context) => {
   try {
     const prisma = c.get("prisma");
@@ -57,6 +113,7 @@ postRouter.get("/:blogid/iseditable", userAuthMiddleware, async (c: Context) => 
     return c.json({ message: "caught an error", isEditable: false, error: e.message })
   }
 })
+
 postRouter.put('/:blogId', userAuthMiddleware, async (c: Context) => {
   try {
     const prisma = c.get('prisma')
@@ -80,6 +137,7 @@ postRouter.put('/:blogId', userAuthMiddleware, async (c: Context) => {
   }
 
 })
+
 postRouter.delete("/:blogId", userAuthMiddleware, async (c: Context) => {
   try {
     const prisma = c.get('prisma');
@@ -97,6 +155,7 @@ postRouter.delete("/:blogId", userAuthMiddleware, async (c: Context) => {
     return c.json({ message: "something went wrong", details: err.message });
   }
 })
+
 postRouter.get('/bulk', userAuthMiddleware, async (c: Context) => {
 
   try {
@@ -161,4 +220,3 @@ postRouter.get('/:blogId', userAuthMiddleware, async (c: Context) => {
     return c.json({ message: "caught an error", error: e })
   }
 })
-

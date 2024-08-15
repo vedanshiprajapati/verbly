@@ -72,7 +72,7 @@ export default function Blog() {
         <main className="md:w-2/3 w-full container mx-auto px-2 sm:px-4 py-10">
           <div className="p-2 md:p-6">
             <div className="flex flex-col sm:flex-row justify-between items-center">
-              <div>
+              <div className="w-full">
                 <h2 className="text-2xl sm:text-3xl font-bold ">
                   {data?.title}
                 </h2>
@@ -89,34 +89,36 @@ export default function Blog() {
                       </div>
                     </div>
                   </Link>
-                  <div className="block sm:hidden">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <EllipsisVertical className="w-6 h-6" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
-                          <button
-                            className="flex items-center"
-                            onClick={() => {
-                              navigate(`/blog/${id}/edit`);
-                            }}
-                            disabled={disabled}
-                          >
-                            <Pencil className="mr-2 h-3 w-3" /> Edit
-                          </button>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <DeletePopOver
-                            mobileView={true}
-                            id={id}
-                            disabled={disabled}
-                            setDisabled={setDisabled}
-                          />
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
+                  {user === data?.author?.username && (
+                    <div className="block sm:hidden">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <EllipsisVertical className="w-6 h-6" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <button
+                              className="flex items-center"
+                              onClick={() => {
+                                navigate(`/blog/${id}/edit`);
+                              }}
+                              disabled={disabled}
+                            >
+                              <Pencil className="mr-2 h-3 w-3" /> Edit
+                            </button>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <DeletePopOver
+                              mobileView={true}
+                              id={id}
+                              disabled={disabled}
+                              setDisabled={setDisabled}
+                            />
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  )}
                 </div>
               </div>
               <Options />
@@ -139,11 +141,11 @@ export default function Blog() {
 export function BlogPostSkeleton() {
   return (
     <div className="flex justify-center">
-      <main className="w-2/3 container mx-auto px-4 py-10">
-        <div className="p-6">
-          <div className="flex justify-between items-center">
+      <main className="md:w-2/3 w-full container mx-auto px-2 sm:px-4 py-10">
+        <div className="p-2 md:p-6">
+          <div className="fflex flex-col sm:flex-row justify-between items-center">
             <div>
-              <Skeleton className="h-12 w-64 mb-4" />
+              <Skeleton className="h-12 w-50 md:w-64 mb-4" />
               <div className="flex items-center gap-4 mt-4">
                 <Skeleton className="w-10 h-10 rounded-full" />
                 <Skeleton className="h-5 w-32" />

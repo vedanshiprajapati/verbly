@@ -15,7 +15,7 @@ const NoteEditable: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-center h- h-5/6 p-4">
+    <div className="flex items-center justify-center border h-[90vh] p-4">
       <Card className="max-w-md w-full shadow-lg rounded-lg dark:shadow-stone-900">
         <CardHeader className="text-center">
           <div className="mx-auto bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">

@@ -17,15 +17,12 @@ export default function BlogEdit() {
   const postBlogMutation = useMutation({
     mutationFn: PostIndividualBlog,
     onSuccess: (data) => {
-      console.log("hohohohoho");
       queryClient.setQueryData(["blog", data?.details?.id], data);
       navigate(`/blog/${data?.details?.id}`);
     },
   });
-  console.log(postBlogMutation.isSuccess, "is itttt");
 
   const handleSubmit = () => {
-    console.log(content);
     const BlogInfo: createBlog = {
       title,
       content: JSON.stringify(content),

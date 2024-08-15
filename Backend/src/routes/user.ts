@@ -94,6 +94,10 @@ userRouter.get("/:username", userAuthMiddleware, async (c: Context) => {
         posts: true
       }
     })
+    if (!response) {
+      c.status(200);
+      return c.json({ message: "user do not exist", success: "Fail" })
+    }
     c.status(200);
     return c.json({ message: "user details sent successfully", details: response, success: "OK" })
   } catch (error: any) {

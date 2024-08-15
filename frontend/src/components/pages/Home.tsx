@@ -16,6 +16,8 @@ export interface BlogDetails {
     username: string;
     name?: string;
   };
+  link?: string;
+  snippet?: string;
   published: true;
 }
 

@@ -2,7 +2,7 @@ import { Sun, Moon, PenTool, Search } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { Button } from "../ui/button";
 import { useTheme } from "../context/ThemeProvider";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AvatarDropdown } from "./AvatarDropdown";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -14,7 +14,15 @@ import {
 } from "../ui/hover-card";
 import { Input } from "../ui/input";
 
+// <script async src="https://cse.google.com/cse.js?cx=f1e1579118ba44d87">
+// </script>
+// <div class="gcse-search"></div>
+
+/// APi KEY = AIzaSyAE4m7VJkjF38ywO4fMtUspqFKcCiVSBR0
+// search ENGINE ID = f1e1579118ba44d87
+
 export default function NavBar() {
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const { isAuthenticated } = useContext(AuthContext);
   const handleThemeToggle = (checked: boolean) => {
@@ -40,6 +48,9 @@ export default function NavBar() {
                           placeholder="Search Blog"
                           type="search"
                           className="pl-8 w-[300px]"
+                          onClick={() => {
+                            navigate("/blog/search");
+                          }}
                         />
                       </div>
                     )}

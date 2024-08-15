@@ -10,11 +10,15 @@ import { Skeleton } from "../ui/skeleton";
 import { useParams } from "react-router-dom";
 import EditProfileModal from "../Reusables/EditProfilePopup";
 import { jwtDecode } from "jwt-decode";
+import NotFound from "./NotFound";
 const ProfilePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState("posts");
   const [isUserProfile, setIsUserProfile] = useState(false);
   let { username } = useParams();
 
+  if (username && username[0] != "@") {
+    return <NotFound />;
+  }
   username = username?.slice(1);
   useEffect(() => {
     const token = localStorage.getItem("token") || "";
@@ -36,9 +40,11 @@ const ProfilePage: React.FC = () => {
   });
 
   if (!username) {
-    return <div>user doesn't exist</div>;
+    return <NotFound />;
   }
-
+  if (profileQuery.isError || !profileQuery?.data?.details) {
+    return <NotFound />;
+  }
   let user = profileQuery.isSuccess && profileQuery.data.details;
   if (profileQuery.isLoading) {
     return <ProfileSkeleton />;

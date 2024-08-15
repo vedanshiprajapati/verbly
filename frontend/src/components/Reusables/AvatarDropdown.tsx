@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
-import { LogOut, PenTool, UserRound } from "lucide-react";
+import { LogOut, PenTool, Search, UserRound } from "lucide-react";
 
 export function AvatarDropdown() {
   const token = localStorage.getItem("token") || "";
@@ -28,6 +28,12 @@ export function AvatarDropdown() {
           <Link to="/blog/edit" className="flex">
             <PenTool className="mr-2 h-4 w-4" />
             <span className="text-right">Write</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="md:hidden block">
+          <Link to="/blog/search" className="flex">
+            <Search className="mr-2 h-4 w-4" />
+            <span className="text-right">Blog Search</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator className="md:hidden block" />

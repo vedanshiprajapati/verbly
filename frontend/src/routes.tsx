@@ -10,6 +10,7 @@ import BlogUpdate from "./components/pages/BlogUpdate";
 import NotFound from "./components/pages/NotFound";
 import UserProtectedRoute from "./components/Reusables/UserProtectedRoute";
 import ProfilePage from "./components/pages/Profile";
+import SearchPage from "./components/pages/Search";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<NavBar />}>
@@ -18,6 +19,7 @@ const AppRoutes = () => (
     <Route path="/" element={<ProtectedRoute />}>
       <Route path="/" element={<NavBar />}>
         <Route path="/blog/edit" element={<BlogEdit />} />
+        <Route path="/blog/search" element={<SearchPage />} />
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/:username" element={<ProfilePage />} />
         <Route path="/" element={<UserProtectedRoute />}>
