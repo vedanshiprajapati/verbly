@@ -38,6 +38,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ currentUser }) => {
     onSuccess: (data, variable) => {
       console.log(data, "=data and variable= ", variable);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+      setOpen(false);
     },
   });
 

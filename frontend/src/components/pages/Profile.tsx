@@ -42,10 +42,13 @@ const ProfilePage: React.FC = () => {
   if (!username) {
     return <NotFound />;
   }
-  if (profileQuery.isError || !profileQuery?.data?.details) {
+
+  if (profileQuery.isError) {
     return <NotFound />;
   }
+
   let user = profileQuery.isSuccess && profileQuery.data.details;
+
   if (profileQuery.isLoading) {
     return <ProfileSkeleton />;
   }
@@ -84,9 +87,16 @@ const ProfilePage: React.FC = () => {
 
         {activeSection === "posts" && (
           <div className="space-y-4 flex flex-col">
-            {user?.posts.map((post: any) => (
-              <Blogcard BlogDetails={post} key={post.id} />
-            ))}
+            {user?.posts.map((post: any) => {
+              return (
+                <Blogcard
+                  BlogDetails={post}
+                  key={post.id}
+                  name={user.name}
+                  username={user.username}
+                />
+              );
+            })}
           </div>
         )}
 

@@ -15,6 +15,8 @@ import { ReadingTime } from "@/constants/const";
 interface BlogcardProps {
   BlogDetails: BlogDetails;
   Global?: boolean;
+  name?: string;
+  username?: string;
 }
 function extractTextContent(plateContent: any) {
   let textContent = "";
@@ -42,7 +44,12 @@ function createPreview(text: string, maxLength = 100) {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength).trim() + "...";
 }
-const Blogcard: React.FC<BlogcardProps> = ({ BlogDetails, Global = false }) => {
+const Blogcard: React.FC<BlogcardProps> = ({
+  BlogDetails,
+  Global = false,
+  name,
+  username,
+}) => {
   const [isHovering, setIsHovering] = useState(false);
 
   let fullText, previewText, content, stats;
@@ -94,10 +101,12 @@ const Blogcard: React.FC<BlogcardProps> = ({ BlogDetails, Global = false }) => {
                 <div className="flex items-center gap-2">
                   <Avatar>
                     <AvatarFallback>
-                      {BlogDetails?.author?.username[0]}
+                      {username
+                        ? username[0]
+                        : BlogDetails?.author?.username[0]}
                     </AvatarFallback>
                   </Avatar>
-                  <span>{BlogDetails?.author?.username}</span>
+                  <span>{name ? name : BlogDetails?.author?.username}</span>
                 </div>
                 <p className="text-primary font-semibold text-xs sm:text-sm">
                   {stats?.text}
